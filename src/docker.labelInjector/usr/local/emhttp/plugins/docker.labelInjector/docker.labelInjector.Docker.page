@@ -1,0 +1,7 @@
+Menu="Docker"
+Icon="server"
+---
+
+<? $type = 'docker' ?>
+
+<script defer src="<?autov('/plugins/docker.versions/scripts/docker.js')?>"></script>

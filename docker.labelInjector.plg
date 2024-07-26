@@ -6,14 +6,14 @@
     <!ENTITY launch "Settings/LabelInjector">
     <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
     <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
-    <!ENTITY version "2024.07.24">
-    <!ENTITY md5 "e0df5c64e89fd27a22e84cfafcb75539">
+    <!ENTITY version "2024.07.26">
+    <!ENTITY md5 "7e6876703a7d1cf90398ceb02b57bcb1">
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;"
     pluginURL="&pluginURL;" icon="folder-open-o" min="6.12.3">
     <CHANGES>
-        ###2024.07.24
+        ###2024.07.26
         - Initial Release
     </CHANGES>
 

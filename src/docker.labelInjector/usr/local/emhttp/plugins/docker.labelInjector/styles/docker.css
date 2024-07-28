@@ -1,0 +1,14 @@
+.label-injector-input {
+    display: flex !important;
+}
+
+.label-injector-form  {
+    text-align: center !important;
+}
+.label-injector-form p {
+    text-align: center !important;
+}
+
+#temp-label-injector-form {
+    height: 500px;
+}

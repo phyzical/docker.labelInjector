@@ -4,4 +4,6 @@ Icon="server"
 
 <? $type = 'docker' ?>
 
+<link type="text/css" rel="stylesheet" href="<?autov("/plugins/docker.labelInjector/styles/docker.css")?>">
+
 <script defer src="<?autov('/plugins/docker.labelInjector/scripts/docker.js')?>"></script>

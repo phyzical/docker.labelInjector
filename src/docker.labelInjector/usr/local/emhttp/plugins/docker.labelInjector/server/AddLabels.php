@@ -82,5 +82,5 @@ foreach ($containerNames as $containerName) {
 }
 
 
-echo json_encode(["containers" => array_slice($updatedContainerNames, 0, 1)]);
+echo json_encode(["containers" => $updatedContainerNames]);
 ?>

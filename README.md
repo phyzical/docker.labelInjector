@@ -1,5 +1,7 @@
 # docker.labelInjector
 
+Until i workout how to add the plugin to CA install via `https://raw.githubusercontent.com/phyzical/docker.labelInjector/main/docker.labelInjector.plg`
+
 After installing, just click the "Add Labels" button
 
 ![button](images/button.png)

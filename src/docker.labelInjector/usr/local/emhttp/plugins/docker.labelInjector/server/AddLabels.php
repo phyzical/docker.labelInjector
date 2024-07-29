@@ -19,8 +19,8 @@ function getUserTemplateInsensitive($Container)
     foreach ($dockerTemplates->getTemplates('user') as $file) {
         $doc = new DOMDocument('1.0', 'utf-8');
         $doc->load($file['path']);
-        $Name = strtolower($doc->getElementsByTagName('Name')->item(0)->nodeValue) ?? '';
-        if ($Name == $Container)
+        $Name = $doc->getElementsByTagName('Name')->item(0)->nodeValue ?? '';
+        if (strtolower($Name) == strtolower($Container))
             return $file['path'];
     }
     return false;

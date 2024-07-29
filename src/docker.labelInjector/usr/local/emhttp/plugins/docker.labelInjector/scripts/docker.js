@@ -147,7 +147,7 @@ function addLabels() {
 
             if (data.containers.length > 0) {
                 const containersString = data.containers.map(container => encodeURIComponent(container));
-                openDocker('update_container ' + containersString.join("*"), _('Updating following Containers: ' + containersString), '', 'loadlist');
+                openDocker('update_container ' + containersString.join("*"), _(`Updating ${data.containers.length} Containers`), '', 'loadlist');
             }
         });
     }

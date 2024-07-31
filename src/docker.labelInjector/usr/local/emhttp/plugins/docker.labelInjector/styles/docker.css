@@ -12,3 +12,35 @@
 #temp-label-injector-form {
     height: 500px;
 }
+
+#label-injector-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.label-injector-form-group-labels {
+    display: flex;
+    flex-direction: row;
+}
+
+.label-injector-select {
+    width: 100%;
+}
+
+
+#label-injector-containers option:checked {
+    background-color: #d3d3d3; 
+    color: #000;
+}
+
+option.removing-label {
+    color: #d3d3d3;
+    background-color: #ae0f0f;
+}
+
+option.adding-label {
+   color: #d3d3d3;
+   background-color: #20962c;
+}

@@ -6,8 +6,8 @@
     <!ENTITY launch "Settings/LabelInjector">
     <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
     <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
-    <!ENTITY version "2024.07.29">
-    <!ENTITY md5 "8cb2c4e8ad9373eb6eb8a48c8b4438c6">
+    <!ENTITY version "2024.07.31">
+    <!ENTITY md5 "68418935a6d01ad5d16f094f82bcbea8">
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;"
@@ -15,6 +15,11 @@
     <CHANGES>
         ###2024.07.29
         - Initial Release
+        ###2024.07.31
+        - Improved form styling
+        - Added overview of selected containers
+        - Added ability to see key and value of entered labels
+        - Added colours for when adding or removing labels
     </CHANGES>
 
     <!-- New source file -->

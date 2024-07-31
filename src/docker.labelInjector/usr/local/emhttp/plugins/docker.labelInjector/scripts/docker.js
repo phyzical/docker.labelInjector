@@ -5,6 +5,7 @@ $(document).ready(function () {
 function labelForm() {
     const tempDiv = $('#temp-label-injector-form')
     const form = document.createElement('form');
+    form.id = "label-injector-form"
     form.className = "label-injector-form"
     const formGroup = document.createElement('div');
 
@@ -16,9 +17,11 @@ function labelForm() {
 
     const containerSelect = document.createElement('select');
     containerSelect.name = 'containers';
+    containerSelect.className = 'label-injector-select';
     containerSelect.multiple = true
     containerSelect.id = 'label-injector-containers';
 
+    const containerSelectionText = document.createElement('p');
 
     const allOption = document.createElement('option');
     allOption.value = 'All';
@@ -38,12 +41,23 @@ function labelForm() {
         const option = document.createElement('option');
         option.value = ct.name;
         option.text = ct.name;
+        option.addEventListener('click', function () {
+            let selectedNames = []
+            for (let i = 0; i < containerSelect.options.length; i++) {
+                if (containerSelect.options[i].selected) {
+                    selectedNames.push(containerSelect.options[i].value);
+                }
+            }
+            containerSelectionText.textContent = `Selected ${selectedNames.join(", ")} containers`;
+        })
         containerSelect.appendChild(option);
     })
 
     formGroup.appendChild(containerHelp);
     formGroup.appendChild(containerHelp2);
     formGroup.appendChild(containerSelect);
+    formGroup.appendChild(containerSelectionText);
+    formGroup.className = 'label-injector-form-group';
     form.appendChild(formGroup);
 
 
@@ -67,6 +81,7 @@ function labelForm() {
     const labelSelect = document.createElement('select');
     labelSelect.name = 'labels';
     labelSelect.id = 'label-injector-labels';
+    labelSelect.className = 'label-injector-select';
     labelSelect.multiple = true
     labelSelect.disabled = true;
 
@@ -74,8 +89,9 @@ function labelForm() {
         if (labelInput.value.trim() !== '' && valueInput.value.trim() !== '') {
             const customOption = document.createElement('option');
             customOption.value = valueInput.value;
-            customOption.text = labelInput.value;
+            customOption.text = `${labelInput.value}: ${valueInput.value}`;
             customOption.selected = true;
+            customOption.className = valueInput.value.includes("REMOVE") ? 'removing-label' : 'adding-label';
             customOption.addEventListener('click', function () {
                 labelSelect.removeChild(customOption);
             })
@@ -86,7 +102,7 @@ function labelForm() {
     });
 
     const formGroup2 = document.createElement('div');
-
+    formGroup2.className = 'label-injector-form-group';
     formGroup2.appendChild(labelHelp);
 
     const inputHelp = document.createElement('p');
@@ -103,6 +119,7 @@ function labelForm() {
     formGroup2.appendChild(labelSelect);
 
     const formGroup3 = document.createElement('div');
+    formGroup3.className = 'label-injector-form-group-labels';
     formGroup3.appendChild(labelInput);
     formGroup3.appendChild(valueInput);
     formGroup3.appendChild(addButton);
@@ -134,7 +151,7 @@ function addLabels() {
     options.each(function () {
         const key = $(this).text().replace(" ", "-");
         const value = $(this).val();
-        labels.push({ key: key, value: value });
+        labels.push({ key: key.split(":-")[0], value: value });
     });
 
     const containers = $('#label-injector-containers').val().filter(ct => ct != "All")

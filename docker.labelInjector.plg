@@ -11,7 +11,7 @@
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;"
-    pluginURL="&pluginURL;" icon="folder-open-o" min="6.12.3">
+    pluginURL="&pluginURL;" min="6.12.3">
     <CHANGES>
         ###2024.07.29
         - Initial Release

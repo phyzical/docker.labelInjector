@@ -1,0 +1,28 @@
+Menu="Utilities"
+Title="docker.labelInjector"
+Icon="icon.png"
+Markdown="false"
+---
+<? 
+    $documentRoot = $_SERVER['DOCUMENT_ROOT'] ?? '/usr/local/emhttp';
+?>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+<link type="text/css" rel="stylesheet" href="<?autov("/plugins/docker.labelInjector/styles/docker.css")?>">
+
+<script src="<?autov('/plugins/docker.labelInjector/scripts/config.js')?>"></script>
+
+<? 
+    require_once("$documentRoot/plugins/docker.labelInjector/server/config/DefaultLabels.php");
+    use DockerInjector\Config\DefaultLabels;
+
+    DefaultLabels::generateForm();
+?>
+
+

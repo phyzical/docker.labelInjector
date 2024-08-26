@@ -2,6 +2,9 @@
 
 Until i workout how to add the plugin to CA install via `https://raw.githubusercontent.com/phyzical/docker.labelInjector/main/docker.labelInjector.plg`
 
+You can add defaults to be prefilled each time via the settings page
+![settings](images/settings.png)
+
 After installing, just click the "Add Labels" button
 
 ![button](images/button.png)
@@ -15,7 +18,6 @@ If the label does not exist it will be added.
 If you enter a value of `REMOVE` it will instead remove the label if found.
 
 Before it updates it will backup the template being used just incase something does go wrong.
-
 ![form](images/form.png)
 
 If you find this happen you should eb able to restore the backup via `/boot/config/plugins/dockerMan/templates-user/my-TEMPLATE_NAME.DATE.bak`

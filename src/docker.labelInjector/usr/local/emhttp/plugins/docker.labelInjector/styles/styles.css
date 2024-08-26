@@ -1,0 +1,18 @@
+.label-injector-form  {
+    text-align: center !important;
+}
+.label-injector-form p {
+    text-align: center !important;
+}
+
+#label-injector-form {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.choices__button {
+    min-width: 1px !important;
+    width: 1px !important;
+}

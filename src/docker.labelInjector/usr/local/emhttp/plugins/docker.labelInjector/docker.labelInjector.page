@@ -14,7 +14,7 @@ Markdown="false"
 />
 <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
-<link type="text/css" rel="stylesheet" href="<?autov("/plugins/docker.labelInjector/styles/docker.css")?>">
+<link type="text/css" rel="stylesheet" href="<?autov("/plugins/docker.labelInjector/styles/styles.css")?>">
 
 <script src="<?autov('/plugins/docker.labelInjector/scripts/config.js')?>"></script>
 

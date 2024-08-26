@@ -54,6 +54,7 @@ function labelForm() {
                 <p>spaces will be replaced with a -</p>
                 <select id="label-injector-labels" name="labels" id="label-injector-labels" class="label-injector-select" multiple required ></select>
             </div>
+            <div class="label-injector-form-group-divider" />
         </form>
         `)
     generateLabelsSelect();

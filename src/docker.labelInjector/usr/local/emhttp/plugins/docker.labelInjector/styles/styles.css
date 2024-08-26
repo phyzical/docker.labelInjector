@@ -16,3 +16,7 @@
     min-width: 1px !important;
     width: 1px !important;
 }
+
+.label-injector-form-group-divider {
+    height: 300px;
+}

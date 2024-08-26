@@ -2,8 +2,25 @@ Menu="Docker"
 Icon="server"
 ---
 
-<? $type = 'docker' ?>
+<? 
+    $documentRoot = $_SERVER['DOCUMENT_ROOT'] ?? '/usr/local/emhttp';
+?>
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
 <link type="text/css" rel="stylesheet" href="<?autov("/plugins/docker.labelInjector/styles/docker.css")?>">
 
 <script defer src="<?autov('/plugins/docker.labelInjector/scripts/docker.js')?>"></script>
+
+<? 
+    require_once("$documentRoot/plugins/docker.labelInjector/server/config/DefaultLabels.php");
+    use DockerInjector\Config\DefaultLabels;
+
+    $defaultLabels = DefaultLabels::getDefaultLabels();
+?>
+
+<script>const defaultLabels = <? echo json_encode($defaultLabels);?></script>

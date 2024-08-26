@@ -2,139 +2,10 @@ $(document).ready(function () {
     $("#docker_containers").after('<input type="button" onclick="labelFormPopup()" value="Add Labels" style="">')
 })
 
-function labelForm() {
-    const tempDiv = $('#temp-label-injector-form')
-    const form = document.createElement('form');
-    form.id = "label-injector-form"
-    form.className = "label-injector-form"
-    const formGroup = document.createElement('div');
-
-    const containerHelp = document.createElement('p');
-    containerHelp.textContent = 'Click on the containers to add labels to';
-
-    const containerHelp2 = document.createElement('p');
-    containerHelp2.textContent = 'Click on "All" to select all containers';
-
-    const containerSelect = document.createElement('select');
-    containerSelect.name = 'containers';
-    containerSelect.className = 'label-injector-select';
-    containerSelect.multiple = true
-    containerSelect.id = 'label-injector-containers';
-
-    const containerSelectionText = document.createElement('p');
-
-    const allOption = document.createElement('option');
-    allOption.value = 'All';
-    allOption.text = 'All';
-
-    allOption.addEventListener('click', function () {
-        if (allOption.selected) {
-            for (let i = 0; i < containerSelect.options.length; i++) {
-                containerSelect.options[i].selected = allOption.selected;
-            }
-        };
-    })
-
-    containerSelect.appendChild(allOption);
-
-    docker.forEach(ct => {
-        const option = document.createElement('option');
-        option.value = ct.name;
-        option.text = ct.name;
-        option.addEventListener('click', function () {
-            let selectedNames = []
-            for (let i = 0; i < containerSelect.options.length; i++) {
-                if (containerSelect.options[i].selected) {
-                    selectedNames.push(containerSelect.options[i].value);
-                }
-            }
-            containerSelectionText.textContent = `Selected ${selectedNames.join(", ")} containers`;
-        })
-        containerSelect.appendChild(option);
-    })
-
-    formGroup.appendChild(containerHelp);
-    formGroup.appendChild(containerHelp2);
-    formGroup.appendChild(containerSelect);
-    formGroup.appendChild(containerSelectionText);
-    formGroup.className = 'label-injector-form-group';
-    form.appendChild(formGroup);
-
-
-    const labelInput = document.createElement('input');
-    labelInput.type = 'text';
-    labelInput.className = 'label-injector-input';
-    labelInput.placeholder = 'Enter label name';
-
-    const valueInput = document.createElement('input');
-    valueInput.type = 'text';
-    valueInput.className = 'label-injector-input';
-    valueInput.placeholder = 'Enter label value';
-
-    const addButton = document.createElement('button');
-    addButton.type = 'button';
-    addButton.textContent = 'Add';
-
-    const labelHelp = document.createElement('p');
-    labelHelp.textContent = 'Click on a label to remove it';
-
-    const labelSelect = document.createElement('select');
-    labelSelect.name = 'labels';
-    labelSelect.id = 'label-injector-labels';
-    labelSelect.className = 'label-injector-select';
-    labelSelect.multiple = true
-    labelSelect.disabled = true;
-
-    addButton.addEventListener('click', function () {
-        if (labelInput.value.trim() !== '' && valueInput.value.trim() !== '') {
-            const customOption = document.createElement('option');
-            customOption.value = valueInput.value;
-            customOption.text = `${labelInput.value}: ${valueInput.value}`;
-            customOption.selected = true;
-            customOption.className = valueInput.value.includes("REMOVE") ? 'removing-label' : 'adding-label';
-            customOption.addEventListener('click', function () {
-                labelSelect.removeChild(customOption);
-            })
-            labelSelect.appendChild(customOption);
-            labelInput.value = ''; // Clear the input field
-            valueInput.value = ''; // Clear the input field
-        }
-    });
-
-    const formGroup2 = document.createElement('div');
-    formGroup2.className = 'label-injector-form-group';
-    formGroup2.appendChild(labelHelp);
-
-    const inputHelp = document.createElement('p');
-    inputHelp.textContent = 'If you provide an existing label the value will be replaced, otherwise it is skipped';
-
-    const inputHelp2 = document.createElement('p');
-    inputHelp2.textContent = 'If you provide a value of REMOVE, the label will be removed';
-
-    const inputHelp3 = document.createElement('p');
-    inputHelp3.textContent = 'spaces will be replaced with a -';
-
-    formGroup2.appendChild(inputHelp);
-    formGroup2.appendChild(inputHelp2);
-    formGroup2.appendChild(labelSelect);
-
-    const formGroup3 = document.createElement('div');
-    formGroup3.className = 'label-injector-form-group-labels';
-    formGroup3.appendChild(labelInput);
-    formGroup3.appendChild(valueInput);
-    formGroup3.appendChild(addButton);
-
-    form.appendChild(formGroup2);
-    form.appendChild(formGroup3);
-
-    tempDiv.html(form)
-}
-
-
 function labelFormPopup() {
     swal({
         title: "Label Updater",
-        text: '<form id="temp-label-injector-form"></form>',
+        text: '<form id="label-injector-form"></form>',
         html: true,
         showCancelButton: true,
     }, function () {
@@ -145,20 +16,21 @@ function labelFormPopup() {
 }
 
 function addLabels() {
-    const options = $('#label-injector-labels').find('option');
-    const labels = [];
+    const labels = $('#label-injector-labels')
+        .val()
+        .map(value => ({ key: value.split("=")[0], value: value.split("=")[1] }));
 
-    options.each(function () {
-        const key = $(this).text().replace(" ", "-");
-        const value = $(this).val();
-        labels.push({ key: key.split(":-")[0], value: value });
-    });
+    let containers = $('#label-injector-containers').val()
 
-    const containers = $('#label-injector-containers').val().filter(ct => ct != "All")
+    if (containers.includes('all')) {
+        containers = docker.map(ct => ct.name)
+    }
+
+    alert(JSON.stringify(labels))
 
     if (labels.length > 0 && containers.length > 0) {
         $('div.spinner.fixed').show();
-        $.post("/plugins/docker.labelInjector/server/AddLabels.php", { data: JSON.stringify({ labels, containers }) }, function (data) {
+        $.post("/plugins/docker.labelInjector/server/service/AddLabels.php", { data: JSON.stringify({ labels, containers }) }, function (data) {
             $('div.spinner.fixed').hide();
             data = JSON.parse(data)
 
@@ -168,4 +40,241 @@ function addLabels() {
             }
         });
     }
+}
+
+function labelForm() {
+    $('#label-injector-form').html(`
+        <form id="label-injector-form" class="label-injector-form">
+            <div class="label-injector-form-group">
+                <p>Choose containers to add labels to</p>
+                <select id="label-injector-containers" name="containers" class="label-injector-select" multiple id="label-injector-containers" required></select>
+            </div>
+            <div class="label-injector-form-group">
+                <p>If you provide an empty value, the label will be removed i.e 'LABEL='</p>
+                <p>spaces will be replaced with a -</p>
+                <select id="label-injector-labels" name="labels" id="label-injector-labels" class="label-injector-select" multiple required ></select>
+            </div>
+        </form>
+        `)
+    generateLabelsSelect();
+    generateContainersSelect();
+
+    $(".sa-confirm-button-container button").prop("disabled", true)
+    const valueChecker = function () {
+        if ($("#label-injector-containers").val() && $("#label-injector-labels").val()) {
+            $(".sa-confirm-button-container button").prop("disabled", false)
+        } else {
+            $(".sa-confirm-button-container button").prop("disabled", true)
+        }
+    }
+    $("#label-injector-containers").on('change', valueChecker);
+    $("#label-injector-labels").on('change', valueChecker);
+}
+
+function generateLabelsSelect() {
+    new Choices($("#label-injector-labels")[0], {
+        silent: false,
+        items: [],
+        choices: defaultLabels.map(label => ({
+            value: label,
+            label: label,
+            selected: true,
+            disabled: false
+        })),
+        renderChoiceLimit: -1,
+        maxItemCount: -1,
+        closeDropdownOnSelect: 'auto',
+        singleModeForMultiSelect: false,
+        addChoices: true,
+        addItems: true,
+        addItemFilter: (value) => !!value && value !== '' && value.includes('='),
+        removeItems: true,
+        removeItemButton: true,
+        removeItemButtonAlignLeft: false,
+        editItems: true,
+        allowHTML: false,
+        allowHtmlUserInput: false,
+        duplicateItemsAllowed: true,
+        delimiter: ',',
+        paste: true,
+        searchEnabled: true,
+        searchChoices: true,
+        searchFloor: 1,
+        searchResultLimit: 4,
+        searchFields: ['label', 'value'],
+        position: 'auto',
+        resetScrollPosition: true,
+        shouldSort: true,
+        shouldSortItems: false,
+        shadowRoot: null,
+        placeholder: true,
+        placeholderValue: null,
+        searchPlaceholderValue: null,
+        prependValue: null,
+        appendValue: null,
+        renderSelectedChoices: 'auto',
+        loadingText: 'Loading...',
+        noResultsText: 'No results found',
+        noChoicesText: 'No choices to choose from',
+        itemSelectText: 'Press to select',
+        uniqueItemText: 'Only unique values can be added',
+        customAddItemText: 'Only values containing "=" can be added, i.e `LABEL_A=VALUE_A',
+        addItemText: (value) => {
+            return `Press Enter to add <b>"${value}"</b>`;
+        },
+        removeItemIconText: () => `Remove item`,
+        removeItemLabelText: (value) => `Remove item: ${value}`,
+        maxItemText: (maxItemCount) => {
+            return `Only ${maxItemCount} values can be added`;
+        },
+        valueComparer: (value1, value2) => {
+            return value1 === value2;
+        },
+        classNames: {
+            containerOuter: ['choices'],
+            containerInner: ['choices__inner'],
+            input: ['choices__input'],
+            inputCloned: ['choices__input--cloned'],
+            list: ['choices__list'],
+            listItems: ['choices__list--multiple'],
+            listSingle: ['choices__list--single'],
+            listDropdown: ['choices__list--dropdown'],
+            item: ['choices__item'],
+            itemSelectable: ['choices__item--selectable'],
+            itemDisabled: ['choices__item--disabled'],
+            itemChoice: ['choices__item--choice'],
+            description: ['choices__description'],
+            placeholder: ['choices__placeholder'],
+            group: ['choices__group'],
+            groupHeading: ['choices__heading'],
+            button: ['choices__button'],
+            activeState: ['is-active'],
+            focusState: ['is-focused'],
+            openState: ['is-open'],
+            disabledState: ['is-disabled'],
+            highlightedState: ['is-highlighted'],
+            selectedState: ['is-selected'],
+            flippedState: ['is-flipped'],
+            loadingState: ['is-loading'],
+            notice: ['choices__notice'],
+            addChoice: ['choices__item--selectable', 'add-choice'],
+            noResults: ['has-no-results'],
+            noChoices: ['has-no-choices'],
+        },
+        // Choices uses the great Fuse library for searching. You
+        // can find more options here: https://fusejs.io/api/options.html
+        fuseOptions: {
+            includeScore: true
+        },
+        labelId: '',
+        callbackOnInit: null,
+        callbackOnCreateTemplates: null,
+        appendGroupInSearch: false,
+    });
+}
+
+function generateContainersSelect() {
+    new Choices($("#label-injector-containers")[0], {
+        silent: false,
+        items: [],
+        choices: docker.map(ct => ({
+            value: ct.name,
+            label: ct.name,
+            selected: false,
+            disabled: false
+        })).concat({
+            value: 'all',
+            label: 'All',
+            selected: false,
+            disabled: false
+        }),
+        renderChoiceLimit: -1,
+        maxItemCount: -1,
+        closeDropdownOnSelect: 'auto',
+        singleModeForMultiSelect: false,
+        addChoices: false,
+        addItems: false,
+        removeItems: true,
+        removeItemButton: true,
+        removeItemButtonAlignLeft: false,
+        editItems: false,
+        allowHTML: false,
+        allowHtmlUserInput: false,
+        duplicateItemsAllowed: true,
+        delimiter: ',',
+        paste: true,
+        searchEnabled: true,
+        searchChoices: true,
+        searchFloor: 1,
+        searchResultLimit: 4,
+        searchFields: ['label', 'value'],
+        position: 'auto',
+        resetScrollPosition: true,
+        shouldSort: true,
+        shouldSortItems: false,
+        shadowRoot: null,
+        placeholder: true,
+        placeholderValue: null,
+        searchPlaceholderValue: null,
+        prependValue: null,
+        appendValue: null,
+        renderSelectedChoices: 'auto',
+        loadingText: 'Loading...',
+        placeholderValue: 'Select a container...',
+        noResultsText: 'No results found',
+        noChoicesText: 'No choices to choose from',
+        itemSelectText: 'Press to select',
+        uniqueItemText: 'Only unique values can be added',
+        addItemText: (value) => {
+            return `Press Enter to add <b>"${value}"</b>`;
+        },
+        removeItemIconText: () => `Remove item`,
+        removeItemLabelText: (value) => `Remove item: ${value}`,
+        maxItemText: (maxItemCount) => {
+            return `Only ${maxItemCount} values can be added`;
+        },
+        valueComparer: (value1, value2) => {
+            return value1 === value2;
+        },
+        classNames: {
+            containerOuter: ['choices'],
+            containerInner: ['choices__inner'],
+            input: ['choices__input'],
+            inputCloned: ['choices__input--cloned'],
+            list: ['choices__list'],
+            listItems: ['choices__list--multiple'],
+            listSingle: ['choices__list--single'],
+            listDropdown: ['choices__list--dropdown'],
+            item: ['choices__item'],
+            itemSelectable: ['choices__item--selectable'],
+            itemDisabled: ['choices__item--disabled'],
+            itemChoice: ['choices__item--choice'],
+            description: ['choices__description'],
+            placeholder: ['choices__placeholder'],
+            group: ['choices__group'],
+            groupHeading: ['choices__heading'],
+            button: ['choices__button'],
+            activeState: ['is-active'],
+            focusState: ['is-focused'],
+            openState: ['is-open'],
+            disabledState: ['is-disabled'],
+            highlightedState: ['is-highlighted'],
+            selectedState: ['is-selected'],
+            flippedState: ['is-flipped'],
+            loadingState: ['is-loading'],
+            notice: ['choices__notice'],
+            addChoice: ['choices__item--selectable', 'add-choice'],
+            noResults: ['has-no-results'],
+            noChoices: ['has-no-choices'],
+        },
+        // Choices uses the great Fuse library for searching. You
+        // can find more options here: https://fusejs.io/api/options.html
+        fuseOptions: {
+            includeScore: true
+        },
+        labelId: '',
+        callbackOnInit: null,
+        callbackOnCreateTemplates: null,
+        appendGroupInSearch: false,
+    });
 }

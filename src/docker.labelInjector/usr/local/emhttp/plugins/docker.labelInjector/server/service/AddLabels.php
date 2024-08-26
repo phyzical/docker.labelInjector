@@ -2,8 +2,8 @@
 $configDir = "/boot/config/plugins/docker.labelInjector";
 $sourceDir = "/usr/local/emhttp/plugins/docker.labelInjector";
 $documentRoot = $_SERVER['DOCUMENT_ROOT'] ?? '/usr/local/emhttp';
-require_once ("$documentRoot/plugins/dynamix.docker.manager/include/DockerClient.php");
-require_once ("$documentRoot/webGui/include/Helpers.php");
+require_once("$documentRoot/plugins/dynamix.docker.manager/include/DockerClient.php");
+require_once("$documentRoot/webGui/include/Helpers.php");
 
 $dockerUpdate = new DockerUpdate();
 
@@ -42,9 +42,11 @@ foreach ($containerNames as $containerName) {
             $label = $input->key;
             $value = $input->value;
 
+            $value = str_replace('${CONTAINER_NAME}', $containerName, $value);
+
             $template_label = $template_xml->xpath("//Config[@Type='Label'][@Target='$label']");
             if ($template_label) {
-                if ($value == "REMOVE") {
+                if (!$value) {
                     // echo "Removing $label\n";
                     $dom = dom_import_simplexml($template_label[0]);
                     $dom->parentNode->removeChild($dom);
@@ -54,7 +56,7 @@ foreach ($containerNames as $containerName) {
                     $template_label[0][0] = $value;
                     $changed = true;
                 }
-            } else if ($value != "REMOVE") {
+            } else if ($value) {
                 // echo "Adding $label with $value\n";
                 $newElement = $template_xml->addChild('Config');
                 $newElement->addAttribute('Name', $label);

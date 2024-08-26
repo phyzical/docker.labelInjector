@@ -26,8 +26,6 @@ function addLabels() {
         containers = docker.map(ct => ct.name)
     }
 
-    alert(JSON.stringify(labels))
-
     if (labels.length > 0 && containers.length > 0) {
         $('div.spinner.fixed').show();
         $.post("/plugins/docker.labelInjector/server/service/AddLabels.php", { data: JSON.stringify({ labels, containers }) }, function (data) {
@@ -221,7 +219,6 @@ function generateContainersSelect() {
         appendValue: null,
         renderSelectedChoices: 'auto',
         loadingText: 'Loading...',
-        placeholderValue: 'Select a container...',
         noResultsText: 'No results found',
         noChoicesText: 'No choices to choose from',
         itemSelectText: 'Press to select',

@@ -42,9 +42,12 @@ foreach ($containerNames as $containerName) {
             $label = $input->key;
             $value = $input->value;
 
-            $value = str_replace('${CONTAINER_NAME}', $containerName, $value);
+            $value = str_replace("\${CONTAINER_NAME}", $containerName, $value);
 
             $template_label = $template_xml->xpath("//Config[@Type='Label'][@Target='$label']");
+
+            // echo "$label=" . $template_label[0][0] . " -> $label=$value\n";
+
             if ($template_label) {
                 if (!$value) {
                     // echo "Removing $label\n";
@@ -82,7 +85,6 @@ foreach ($containerNames as $containerName) {
         }
     }
 }
-
 
 echo json_encode(["containers" => $updatedContainerNames]);
 ?>

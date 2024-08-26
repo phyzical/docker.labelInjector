@@ -48,6 +48,10 @@ class DefaultLabels
                 <p>Labels to be prefilled when using the add labels button</p>
                 <p>Type and press enter to save a label, separate label from value via '='</p>
                 <p>Empty values are valid to allow for easy filling</p>
+                <p>The following special values are available:</p>
+                <ul>
+                    <li>\${CONTAINER_NAME} - i.e 'LABEL_A=\${CONTAINER_NAME}.domain.com' -> 'LABEL_A=container_a.domain.com'</li>
+                </ul>
                 <div>
                     <form method="post" action="">
                         <label for="labels">Labels</label>

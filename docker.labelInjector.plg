@@ -6,8 +6,8 @@
     <!ENTITY launch "Settings/LabelInjector">
     <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
     <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
-    <!ENTITY version "2024.08.26">
-    <!ENTITY md5 "6314867e11e9e16786f8103daf402766">
+    <!ENTITY version "2024.08.28">
+    <!ENTITY md5 "28aab0de8828e99e6ff4d06d16bd9ce9">
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;"
@@ -26,6 +26,9 @@
         - Replaced select fields with choices select for better usability
         - Added logic to allow editing of labels in selects
         - Simplified the removal of a label to assume if its an empty label that it will be removed
+        ###2024.08.28
+        - Added the ability to have quotes in labels by using ` backticks
+        - Added a summary of changes modal so its just a little less magical
     </CHANGES>
 
     <!-- New source file -->

@@ -11,7 +11,9 @@ $(document).ready(function () {
         singleModeForMultiSelect: false,
         addChoices: true,
         addItems: true,
-        addItemFilter: (value) => !!value && value !== '' && value.includes('='),
+        addItemFilter: (value) => {
+            return !!value && value !== '' && value.includes('=')
+        },
         removeItems: true,
         removeItemButton: true,
         removeItemButtonAlignLeft: false,

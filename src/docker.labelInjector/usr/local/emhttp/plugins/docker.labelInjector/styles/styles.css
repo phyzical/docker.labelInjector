@@ -6,10 +6,16 @@
 }
 
 #label-injector-form {
-    height: 500px;
+    height: 75%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.sweet-alert.label-injector {
+    width: 75% !important;
+    left: 25%;
+    top: 25%;
 }
 
 .choices__button {

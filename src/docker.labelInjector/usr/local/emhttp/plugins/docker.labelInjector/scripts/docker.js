@@ -8,9 +8,17 @@ function labelFormPopup() {
         text: '<form id="label-injector-form"></form>',
         html: true,
         showCancelButton: true,
-    }, function () {
-        addLabels()
-    })
+        closeOnConfirm: false,
+        closeOnCancel: false
+    }, function (isConfirm) {
+        if (isConfirm) {
+            addLabels();
+        }
+        // Remove the 'label-injector' class regardless of the button clicked
+        $(".sweet-alert").removeClass("label-injector");
+        swal.close(); // Close the SweetAlert dialog
+    });
+    $(".sweet-alert").addClass("label-injector")
 
     labelForm()
 }
@@ -31,10 +39,27 @@ function addLabels() {
         $.post("/plugins/docker.labelInjector/server/service/AddLabels.php", { data: JSON.stringify({ labels, containers }) }, function (data) {
             $('div.spinner.fixed').hide();
             data = JSON.parse(data)
+            let updates = '<h3>Note: The templates have been updated, this is just an FYI modal at the moment</h3>';
+            Object.entries(data.updates).forEach(([container, changes]) => {
+                updates = updates + `${container} changes:${changes.join()}\n`;
+            });
 
             if (data.containers.length > 0) {
-                const containersString = data.containers.map(container => encodeURIComponent(container));
-                openDocker('update_container ' + containersString.join("*"), _(`Updating ${data.containers.length} Containers`), '', 'loadlist');
+                // TODO: this swal is not letting th next swal spawn
+                swal({
+                    title: "Summary of Updates",
+                    text: updates,
+                    html: true,
+                    closeOnConfirm: false,
+                }, function () {
+                    $('div.spinner.fixed').show();
+                    swal.close(); // Close the SweetAlert dialog
+                    const containersString = data.containers.map(container => encodeURIComponent(container));
+                    setTimeout(() => {
+                        $('div.spinner.fixed').hide();
+                        openDocker('update_container ' + containersString.join("*"), _(`Updating ${data.containers.length} Containers`), '', 'loadlist');
+                    }, 500);
+                });
             }
         });
     }
@@ -48,8 +73,14 @@ function labelForm() {
                 <select id="label-injector-containers" name="containers" class="label-injector-select" multiple id="label-injector-containers" required></select>
             </div>
             <div class="label-injector-form-group">
-                <p>If you provide an empty value, the label will be removed i.e 'LABEL='</p>
+                <p>Type and press enter to save a label, separate label from value via '='</p>
+                <p>Empty values are valid to allow for easy filling</p>
                 <p>spaces will be replaced with a -</p>
+                <p>To use quotes in an options use \` Otherwise the option fails to save</p>
+                <p>The following special values are available:</p>
+                <ul>
+                    <li>\${CONTAINER_NAME} - i.e 'LABEL_A=\${CONTAINER_NAME}.domain.com' -> 'LABEL_A=container_a.domain.com'</li>
+                </ul>
                 <select id="label-injector-labels" name="labels" id="label-injector-labels" class="label-injector-select" multiple required ></select>
             </div>
             <div class="label-injector-form-group-divider" />

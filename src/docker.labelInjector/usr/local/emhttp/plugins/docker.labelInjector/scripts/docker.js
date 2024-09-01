@@ -28,17 +28,19 @@ function addLabels() {
         .val()
         .map(value => ({ key: value.split("=")[0], value: value.split("=")[1] }));
 
-    const containers = $('#label-injector-containers').val().filter(x => x !== 'all');
+    const containers = $('#label-injector-containers').val().filter(x => x !== 'All');
 
     if (labels.length > 0 && containers.length > 0) {
         $('div.spinner.fixed').show();
         $.post("/plugins/docker.labelInjector/server/service/AddLabels.php", { data: JSON.stringify({ labels, containers }) }, function (data) {
             $('div.spinner.fixed').hide();
             data = JSON.parse(data)
-            let updates = '<h3>Note: The templates have been updated, this is just an FYI modal at the moment</h3>';
+            let updates = '<pre class="releases" style="overflow-y: scroll; height:400px; border: 2px solid #000; padding: 10px;border-radius: 5px;background-color: #f9f9f9; "><h3>Note: The templates have been updated, this is just an FYI modal at the moment</h3>';
             Object.entries(data.updates).forEach(([container, changes]) => {
-                updates = updates + `${container} changes:${changes.join()}\n`;
+                updates = updates + `<h3>>${container} changes:</h3>${changes.join()}`;
             });
+
+            updates = updates + "</pre>"
 
             if (data.containers.length > 0) {
                 // TODO: this swal is not letting th next swal spawn
@@ -306,13 +308,15 @@ function generateContainersSelect() {
     let selectedAll = false;
     $("#label-injector-containers").on('change', function () {
         if ($(this).val().includes('all')) {
-            selectedAll = true
-            const allChoices = choices._store.choices;
-            allChoices.forEach(choice => {
-                if (!choice.selected && !choice.disabled) {
-                    choices.setChoiceByValue(choice.value);
-                }
-            });
+            if (!selectedAll) {
+                selectedAll = true
+                const allChoices = choices._store.choices;
+                allChoices.forEach(choice => {
+                    if (!choice.selected && !choice.disabled) {
+                        choices.setChoiceByValue(choice.value);
+                    }
+                });
+            }
         } else {
             if (selectedAll) {
                 selectedAll = false

@@ -6,8 +6,8 @@
     <!ENTITY launch "Settings/LabelInjector">
     <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
     <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
-    <!ENTITY version "2024.08.28">
-    <!ENTITY md5 "28aab0de8828e99e6ff4d06d16bd9ce9">
+    <!ENTITY version "2024.09.02">
+    <!ENTITY md5 "2bb9da5eb847b01b1815b2816c066c69">
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;"
@@ -29,6 +29,8 @@
         ###2024.08.28
         - Added the ability to have quotes in labels by using ` backticks
         - Added a summary of changes modal so its just a little less magical
+        ###2024.09.02
+        - Adjusted how the All button works for container select
     </CHANGES>
 
     <!-- New source file -->

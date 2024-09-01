@@ -28,11 +28,7 @@ function addLabels() {
         .val()
         .map(value => ({ key: value.split("=")[0], value: value.split("=")[1] }));
 
-    let containers = $('#label-injector-containers').val()
-
-    if (containers.includes('all')) {
-        containers = docker.map(ct => ct.name)
-    }
+    const containers = $('#label-injector-containers').val().filter(x => x !== 'all');
 
     if (labels.length > 0 && containers.length > 0) {
         $('div.spinner.fixed').show();
@@ -204,7 +200,7 @@ function generateLabelsSelect() {
 }
 
 function generateContainersSelect() {
-    new Choices($("#label-injector-containers")[0], {
+    const choices = new Choices($("#label-injector-containers")[0], {
         silent: false,
         items: [],
         choices: docker.map(ct => ({
@@ -306,4 +302,27 @@ function generateContainersSelect() {
         callbackOnCreateTemplates: null,
         appendGroupInSearch: false,
     });
+
+    let selectedAll = false;
+    $("#label-injector-containers").on('change', function () {
+        if ($(this).val().includes('all')) {
+            selectedAll = true
+            const allChoices = choices._store.choices;
+            allChoices.forEach(choice => {
+                if (!choice.selected && !choice.disabled) {
+                    choices.setChoiceByValue(choice.value);
+                }
+            });
+        } else {
+            if (selectedAll) {
+                selectedAll = false
+                const allChoices = choices._store.choices;
+                allChoices.forEach(choice => {
+                    if (choice.selected && !choice.disabled) {
+                        choices.removeActiveItemsByValue(choice.value);
+                    }
+                });
+            }
+        }
+    })
 }

@@ -37,7 +37,7 @@ function addLabels() {
             data = JSON.parse(data)
             let updates = '<pre class="releases" style="overflow-y: scroll; height:400px; border: 2px solid #000; padding: 10px;border-radius: 5px;background-color: #f9f9f9; "><h3>Note: The templates have been updated, this is just an FYI modal at the moment</h3>';
             Object.entries(data.updates).forEach(([container, changes]) => {
-                updates = updates + `<h3>>${container} changes:</h3>${changes.join()}`;
+                updates = updates + `<h3>${container} changes:</h3>${changes.join("")}`;
             });
 
             updates = updates + "</pre>"

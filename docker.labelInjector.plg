@@ -7,7 +7,7 @@
     <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
     <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
     <!ENTITY version "2024.09.02">
-    <!ENTITY md5 "27bc0da790c74d34eb049c3d4ef4111c">
+    <!ENTITY md5 "b924f80ed505dbbb50b24dac9318a4c2">
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;"
@@ -31,6 +31,7 @@
         - Added a summary of changes modal so its just a little less magical
         ###2024.09.02
         - Adjusted how the All button works for container select
+        - Fix alert using , instead of nothing
     </CHANGES>
 
     <!-- New source file -->

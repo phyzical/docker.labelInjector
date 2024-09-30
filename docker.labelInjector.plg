@@ -1,37 +1,43 @@
 <?xml version="1.0" standalone="yes"?>
 <!DOCTYPE PLUGIN [
     <!ENTITY name "docker.labelInjector">
-    <!ENTITY author "phyzical">
-    <!ENTITY github "&author;/&name;">
-    <!ENTITY launch "Settings/LabelInjector">
-    <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
-    <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
-    <!ENTITY version "2024.09.02">
-    <!ENTITY md5 "b924f80ed505dbbb50b24dac9318a4c2">
+<!ENTITY author "phyzical">
+<!ENTITY github "&author;/&name;">
+<!ENTITY launch "Settings/LabelInjector">
+<!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
+<!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
+<!ENTITY version "2024.09.30">
+<!ENTITY md5 "b924f80ed505dbbb50b24dac9318a4c2">
 ]>
 
-<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;"
-    pluginURL="&pluginURL;" min="6.12.3">
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.12.3">
     <CHANGES>
-        ###2024.07.29
-        - Initial Release
-        ###2024.07.31
-        - Improved form styling
-        - Added overview of selected containers
-        - Added ability to see key and value of entered labels
-        - Added colours for when adding or removing labels
-        ###2024.08.26
-        - Added ability to add default labels via settings apge
-        - Added ability to use '${CONTAINER_NAME}' to be auto replaced with the container name
-        - Replaced select fields with choices select for better usability
-        - Added logic to allow editing of labels in selects
-        - Simplified the removal of a label to assume if its an empty label that it will be removed
-        ###2024.08.28
-        - Added the ability to have quotes in labels by using ` backticks
-        - Added a summary of changes modal so its just a little less magical
-        ###2024.09.02
-        - Adjusted how the All button works for container select
-        - Fix alert using , instead of nothing
+###2024.09.30
+- Fix changlog
+
+###2024.09.02
+- Adjusted how the All button works for container select
+- Fix alert using , instead of nothing
+
+###2024.08.28
+- Added the ability to have quotes in labels by using ` backticks
+- Added a summary of changes modal so its just a little less magical
+
+###2024.08.26
+- Added ability to add default labels via settings apge
+- Added ability to use '${CONTAINER_NAME}' to be auto replaced with the container name
+- Replaced select fields with choices select for better usability
+- Added logic to allow editing of labels in selects
+- Simplified the removal of a label to assume if its an empty label that it will be removed
+
+###2024.07.31
+- Improved form styling
+- Added overview of selected containers
+- Added ability to see key and value of entered labels
+- Added colours for when adding or removing labels
+        
+###2024.07.29
+- Initial Release
     </CHANGES>
 
     <!-- New source file -->
@@ -46,7 +52,7 @@
             mkdir -p /boot/config/plugins/&name;/styles
             mkdir -p /boot/config/plugins/&name;/scripts
             rm -f $(ls /boot/config/plugins/&name;/&name;*.txz | grep -v '&version;')
-            echo "&version;" > /boot/config/plugins/&name;/version
+            echo "&version;"> /boot/config/plugins/&name;/version
             echo ""
             echo "----------------------------------------------------"
             echo " &name; has been installed."

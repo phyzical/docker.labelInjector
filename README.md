@@ -1,6 +1,6 @@
 # docker.labelInjector
 
-Until i workout how to add the plugin to CA install via `https://raw.githubusercontent.com/phyzical/docker.labelInjector/main/docker.labelInjector.plg`
+Install via CA Apps
 
 You can add defaults to be prefilled each time via the settings page
 ![settings](images/settings.png)

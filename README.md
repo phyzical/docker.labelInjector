@@ -17,7 +17,13 @@ If the label does not exist it will be added.
 
 If you enter a value of `REMOVE` it will instead remove the label if found.
 
+Special flags include:
+
+* will be replace with the magic value works with both key and value
+
+* `${CONTAINER_NAME}`
+
 Before it updates it will backup the template being used just incase something does go wrong.
 ![form](images/form.png)
 
-If you find this happen you should eb able to restore the backup via `/boot/config/plugins/dockerMan/templates-user/my-TEMPLATE_NAME.DATE.bak`
+If you find this happen you should be able to restore the backup via `/boot/config/plugins/dockerMan/templates-user/my-TEMPLATE_NAME.DATE.bak`

@@ -75,7 +75,7 @@ function labelForm() {
                 <p>Empty values are valid to allow for easy filling</p>
                 <p>spaces will be replaced with a -</p>
                 <p>To use quotes in an options use \` Otherwise the option fails to save</p>
-                <p>The following special values are available:</p>
+                <p>The following special values are available replacement of values or keys:</p>
                 <ul>
                     <li>\${CONTAINER_NAME} - i.e 'LABEL_A=\${CONTAINER_NAME}.domain.com' -> 'LABEL_A=container_a.domain.com'</li>
                 </ul>

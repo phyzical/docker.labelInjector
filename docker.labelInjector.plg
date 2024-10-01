@@ -7,13 +7,14 @@
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
 <!ENTITY version "2024.09.30">
-<!ENTITY md5 "b924f80ed505dbbb50b24dac9318a4c2">
+<!ENTITY md5 "b43f765d473d888ac6bffd442fae7d00">
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.12.3">
     <CHANGES>
 ###2024.09.30
 - Fix changlog
+- Add support for `${CONTAINER_NAME}` in label keys also
 
 ###2024.09.02
 - Adjusted how the All button works for container select

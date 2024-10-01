@@ -49,8 +49,9 @@ foreach ($containerNames as $containerName) {
         foreach ($inputs as $input) {
             $label = $input->key;
             $value = $input->value;
-            $template_label = $template_xml->xpath("//Config[@Type='Label'][@Target='$label']");
+            $label = str_replace("\${CONTAINER_NAME}", $containerName, $label);
 
+            $template_label = $template_xml->xpath("//Config[@Type='Label'][@Target='$label']");
             $value = str_replace("\${CONTAINER_NAME}", $containerName, $value);
 
             if ($template_label) {

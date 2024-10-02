@@ -17,8 +17,10 @@ jobs:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Run pkg_build.sh
         run: bash pkg_build.sh
-      - name: Commit changes
-        run: |
-          git add archive/* *.plg
-          git commit -m "Publish plg changes"
-          git push
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@8621497c8c39c72f3e2a999a26b4ca1b5058a842 # v5.0.1
+        with:
+          commit_message: 'Publish plg changes'
+          file_pattern: 'archive/* *.plg'
+          commit_user_name: 'phyzical[bot]'
+          commit_user_email: '5182053+phyzical@users.noreply.github.com'

@@ -26,3 +26,7 @@
 .label-injector-form-group-divider {
     height: 300px;
 }
+
+.choices__item {
+    color: black;
+}

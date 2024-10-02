@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-#  TODO: lock down main pushes
 jobs:
   publish:
     concurrency:

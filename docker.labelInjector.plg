@@ -7,13 +7,14 @@
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
 <!ENTITY version "2024.10.02">
-<!ENTITY md5 "eca43bd56f7129e79ddc705381168f62">
+<!ENTITY md5 "7c84e12f51641ac0944930edae7ece74">
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.12.3">
     <CHANGES>
 ###2024.10.02
 - Hard code options to be black text to avoid fighting dark mode
+- Fix permissions in archive being set to my user instead of none
 
 ###2024.09.30
 - Fix changlog

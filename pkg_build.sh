@@ -16,7 +16,11 @@ rsync -av --progress src/docker.labelInjector/ "$tmpdir" --exclude .git --exclud
 
 cd "$tmpdir" || exit
 
-gtar --owner=0 --group=0 -cJf "$filename" .
+tar_command="tar"
+if [[ "$(uname)" == "Darwin" ]]; then
+    tar_command="gtar"
+fi
+$tar_command --owner=0 --group=0 -cJf "$filename" .
 
 cd - || exit
 
@@ -29,4 +33,4 @@ sed -i '' 's/<!ENTITY md5 ".*">/<!ENTITY md5 "'"$md5hash"'">/' docker.labelInjec
 echo "MD5: $(md5sum "$filename")"
 echo "once pushed install via https://raw.githubusercontent.com/phyzical/docker.labelInjector/main/docker.labelInjector.plg"
 
-gtar -tvf "$filename"
+$tar_command -tvf "$filename"

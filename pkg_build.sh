@@ -43,3 +43,19 @@ echo "MD5: $(md5sum "$filename")"
 echo "once pushed install via https://raw.githubusercontent.com/phyzical/$plugin_name/main/$plugin_name.plg"
 
 $tar_command -tvf "$filename"
+
+# Check for ownership issues
+OWN=$($tar_command -tvf "$filename" | grep -v "root/root" | grep -v "root   root")
+if [ -n "$OWN" ]; then
+    echo "Ownership issues (should be root/root):"
+    echo "$OWN"
+    exit 1
+fi
+
+# Check for permission issues
+PERM=$($tar_command -tvf "$filename" | grep -v "rwxr-xr-x" | grep -v "rw-r--r--")
+if [ -n "$PERM" ]; then
+    echo "Permission issues (should be rwxr-xr-x or rw-r--r--):"
+    echo "$PERM"
+    exit 1
+fi

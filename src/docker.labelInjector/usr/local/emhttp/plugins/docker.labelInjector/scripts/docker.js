@@ -57,7 +57,6 @@ function addLabels() {
 
             updates = updates + "</pre>"
 
-            // TODO: this swal is not letting th next swal spawn
             swal({
                 title: "Summary of Updates",
                 text: updates,

@@ -18,15 +18,35 @@
     top: 25%;
 }
 
+.sweet-alert.label-injector-summary {
+    width: 75% !important;
+    left: 25%;
+}
+
 .choices__button {
     min-width: 1px !important;
     width: 1px !important;
 }
 
 .label-injector-form-group-divider {
-    height: 300px;
+    height: 100px;
 }
 
 .choices__item {
     color: black;
+}
+
+.docker-label-updates {
+    overflow-y: scroll; 
+    height:400px; 
+    border: 2px solid #000; 
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 100%; 
+    white-space: pre-wrap; 
+    word-wrap: break-word; 
+}
+
+.docker-label-updates * {
+    color: inherit !important;
 }

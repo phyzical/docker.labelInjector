@@ -11,12 +11,18 @@ function labelFormPopup() {
         closeOnConfirm: false,
         closeOnCancel: false
     }, function (isConfirm) {
-        if (isConfirm) {
-            addLabels();
-        }
+        $('div.spinner.fixed').show();
         // Remove the 'label-injector' class regardless of the button clicked
         $(".sweet-alert").removeClass("label-injector");
         swal.close(); // Close the SweetAlert dialog
+        if (isConfirm) {
+            setTimeout(() => {
+                $('div.spinner.fixed').hide();
+                addLabels();
+            }, 500);
+        } else {
+            $('div.spinner.fixed').hide();
+        }
     });
     $(".sweet-alert").addClass("label-injector")
 
@@ -35,30 +41,40 @@ function addLabels() {
         $.post("/plugins/docker.labelInjector/server/service/AddLabels.php", { data: JSON.stringify({ labels, containers }) }, function (data) {
             $('div.spinner.fixed').hide();
             data = JSON.parse(data)
-            let updates = '<pre class="releases" style="overflow-y: scroll; height:400px; border: 2px solid #000; padding: 10px;border-radius: 5px;background-color: #f9f9f9; "><h3>Note: The templates have been updated, this is just an FYI modal at the moment</h3>';
-            Object.entries(data.updates).forEach(([container, changes]) => {
-                updates = updates + `<h3>${container} changes:</h3>${changes.join("")}`;
-            });
+            const hasUpdates = data.containers.length > 0
+            let updates = '<pre class="docker-label-updates">';
+            if (hasUpdates) {
+                updates = updates + `<h3>Note: The templates have been updated, this is just an FYI modal at the moment</h3>`
+                updates = updates + `<h3>Note: if you leave this page the label will not be applied until you edit and save the container/s in question</h3>`
+                updates = updates + `<h3>Note: Performing this action will also update the container at this time</h3>`
+                updates = updates + `<h3>Once you press okay the changes will be applied one by one </h3>`
+                Object.entries(data.updates).forEach(([container, changes]) => {
+                    updates = updates + `<h3>${container} changes:</h3>${changes.join("")}`;
+                });
+            } else {
+                updates = updates + `<h3>No Containers returned any changes in labels, nothing to be applied</h3>`
+            }
 
             updates = updates + "</pre>"
 
-            if (data.containers.length > 0) {
-                // TODO: this swal is not letting th next swal spawn
-                swal({
-                    title: "Summary of Updates",
-                    text: updates,
-                    html: true,
-                    closeOnConfirm: false,
-                }, function () {
+            swal({
+                title: "Summary of Updates",
+                text: updates,
+                html: true,
+                closeOnConfirm: false,
+            }, function () {
+                $(".sweet-alert").removeClass("label-injector-summary");
+                swal.close(); // Close the SweetAlert dialog
+                if (hasUpdates) {
                     $('div.spinner.fixed').show();
-                    swal.close(); // Close the SweetAlert dialog
                     const containersString = data.containers.map(container => encodeURIComponent(container));
                     setTimeout(() => {
                         $('div.spinner.fixed').hide();
                         openDocker('update_container ' + containersString.join("*"), _(`Updating ${data.containers.length} Containers`), '', 'loadlist');
                     }, 500);
-                });
-            }
+                }
+            });
+            $(".sweet-alert").addClass("label-injector-summary")
         });
     }
 }
@@ -69,6 +85,7 @@ function labelForm() {
             <div class="label-injector-form-group">
                 <p>Choose containers to add labels to</p>
                 <select id="label-injector-containers" name="containers" class="label-injector-select" multiple id="label-injector-containers" required></select>
+                <button id="remove-all-label-injector-containers">Remove All</button>
             </div>
             <div class="label-injector-form-group">
                 <p>Type and press enter to save a label, separate label from value via '='</p>
@@ -79,7 +96,8 @@ function labelForm() {
                 <ul>
                     <li>\${CONTAINER_NAME} - i.e 'LABEL_A=\${CONTAINER_NAME}.domain.com' -> 'LABEL_A=container_a.domain.com'</li>
                 </ul>
-                <select id="label-injector-labels" name="labels" id="label-injector-labels" class="label-injector-select" multiple required ></select>
+                <select id="label-injector-labels" name="labels" class="label-injector-select" multiple required ></select>
+                <button id="remove-all-label-injector-labels">Remove All</button>
             </div>
             <div class="label-injector-form-group-divider" />
         </form>
@@ -100,7 +118,7 @@ function labelForm() {
 }
 
 function generateLabelsSelect() {
-    new Choices($("#label-injector-labels")[0], {
+    const choices = new Choices($("#label-injector-labels")[0], {
         silent: false,
         items: [],
         choices: defaultLabels.map(label => ({
@@ -198,6 +216,12 @@ function generateLabelsSelect() {
         callbackOnInit: null,
         callbackOnCreateTemplates: null,
         appendGroupInSearch: false,
+    });
+    $("#remove-all-label-injector-labels").on('click', () => {
+        const allItems = choices.getValue(true);
+        allItems.forEach(item => {
+            choices.removeActiveItemsByValue(item);
+        });
     });
 }
 
@@ -303,6 +327,13 @@ function generateContainersSelect() {
         callbackOnInit: null,
         callbackOnCreateTemplates: null,
         appendGroupInSearch: false,
+    });
+
+    $("#remove-all-label-injector-containers").on('click', () => {
+        const allItems = choices.getValue(true);
+        allItems.forEach(item => {
+            choices.removeActiveItemsByValue(item);
+        });
     });
 
     let selectedAll = false;

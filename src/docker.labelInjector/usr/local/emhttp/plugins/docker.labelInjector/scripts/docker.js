@@ -20,6 +20,8 @@ function labelFormPopup() {
                 $('div.spinner.fixed').hide();
                 addLabels();
             }, 500);
+        } else {
+            $('div.spinner.fixed').hide();
         }
     });
     $(".sweet-alert").addClass("label-injector")

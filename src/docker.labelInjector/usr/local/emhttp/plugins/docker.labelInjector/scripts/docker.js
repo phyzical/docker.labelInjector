@@ -11,12 +11,16 @@ function labelFormPopup() {
         closeOnConfirm: false,
         closeOnCancel: false
     }, function (isConfirm) {
-        if (isConfirm) {
-            addLabels();
-        }
+        $('div.spinner.fixed').show();
         // Remove the 'label-injector' class regardless of the button clicked
         $(".sweet-alert").removeClass("label-injector");
         swal.close(); // Close the SweetAlert dialog
+        if (isConfirm) {
+            setTimeout(() => {
+                $('div.spinner.fixed').hide();
+                addLabels();
+            }, 500);
+        }
     });
     $(".sweet-alert").addClass("label-injector")
 

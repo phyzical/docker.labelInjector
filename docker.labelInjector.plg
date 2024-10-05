@@ -12,6 +12,11 @@
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.12.3">
     <CHANGES>
+###2024.10.05
+- Fix visibility of changes in the summary when dark mode
+- Add remove all button during edit mode
+- Adjusted summary text to make it more obvious the sequence of events
+
 ###2024.10.02
 - Hard code options to be black text to avoid fighting dark mode
 - Fix permissions in archive being set to my user instead of none

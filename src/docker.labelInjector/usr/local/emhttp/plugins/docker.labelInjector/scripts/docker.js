@@ -88,12 +88,16 @@ function labelForm() {
                 <button id="remove-all-label-injector-containers">Remove All</button>
             </div>
             <div class="label-injector-form-group">
-                <p>Type and press enter to save a label, separate label from value via '='</p>
-                <p>Empty values are valid to allow for easy filling</p>
-                <p>spaces will be replaced with a -</p>
-                <p>To use quotes in an options use \` Otherwise the option fails to save</p>
-                <p>The following special values are available replacement of values or keys:</p>
-                <ul>
+                <h3> Note:</h3>
+                <ul class="list">
+                    <li>Type and press enter to save a label, separate label from value via '='</li>
+                    <li>When empty values are provided the label will be removed or ignored if not found</li>
+                    <li>Existing tags will be replaced</li>
+                    <li>Spaces will be replaced with a -</li>
+                    <li>To use quotes in an options use \` Otherwise the option fails to save</li>
+                </ul>
+                <h3>The following special values are available replacement of values or keys:</h3>
+                <ul class="list">
                     <li>\${CONTAINER_NAME} - i.e 'LABEL_A=\${CONTAINER_NAME}.domain.com' -> 'LABEL_A=container_a.domain.com'</li>
                 </ul>
                 <select id="label-injector-labels" name="labels" class="label-injector-select" multiple required ></select>

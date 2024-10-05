@@ -36,6 +36,17 @@
     color: black;
 }
 
+#label-injector-form ul {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+    text-align: center; /* Center the text */
+}
+
+#label-injector-form ul li {
+    margin: 0 10px; /* Add some margin between items */
+    width: auto; /* Ensure items do not take up the maximum width */
+}
+
 .docker-label-updates {
     overflow-y: scroll; 
     height:400px; 

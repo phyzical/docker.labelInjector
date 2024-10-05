@@ -39,30 +39,41 @@ function addLabels() {
         $.post("/plugins/docker.labelInjector/server/service/AddLabels.php", { data: JSON.stringify({ labels, containers }) }, function (data) {
             $('div.spinner.fixed').hide();
             data = JSON.parse(data)
-            let updates = '<pre class="releases" style="overflow-y: scroll; height:400px; border: 2px solid #000; padding: 10px;border-radius: 5px;background-color: #f9f9f9; "><h3>Note: The templates have been updated, this is just an FYI modal at the moment</h3>';
-            Object.entries(data.updates).forEach(([container, changes]) => {
-                updates = updates + `<h3>${container} changes:</h3>${changes.join("")}`;
-            });
+            const hasUpdates = data.containers.length > 0
+            let updates = '<pre class="docker-label-updates">';
+            if (hasUpdates) {
+                updates = updates + `<h3>Note: The templates have been updated, this is just an FYI modal at the moment</h3>`
+                updates = updates + `<h3>Note: if you leave this page the label will not be applied until you edit and save the container/s in question</h3>`
+                updates = updates + `<h3>Note: Performing this action will also update the container at this time</h3>`
+                updates = updates + `<h3>Once you press okay the changes will be applied one by one </h3>`
+                Object.entries(data.updates).forEach(([container, changes]) => {
+                    updates = updates + `<h3>${container} changes:</h3>${changes.join("")}`;
+                });
+            } else {
+                updates = updates + `<h3>No Containers returned any changes in labels, nothing to be applied</h3>`
+            }
 
             updates = updates + "</pre>"
 
-            if (data.containers.length > 0) {
-                // TODO: this swal is not letting th next swal spawn
-                swal({
-                    title: "Summary of Updates",
-                    text: updates,
-                    html: true,
-                    closeOnConfirm: false,
-                }, function () {
+            // TODO: this swal is not letting th next swal spawn
+            swal({
+                title: "Summary of Updates",
+                text: updates,
+                html: true,
+                closeOnConfirm: false,
+            }, function () {
+                $(".sweet-alert").removeClass("label-injector-summary");
+                swal.close(); // Close the SweetAlert dialog
+                if (hasUpdates) {
                     $('div.spinner.fixed').show();
-                    swal.close(); // Close the SweetAlert dialog
                     const containersString = data.containers.map(container => encodeURIComponent(container));
                     setTimeout(() => {
                         $('div.spinner.fixed').hide();
                         openDocker('update_container ' + containersString.join("*"), _(`Updating ${data.containers.length} Containers`), '', 'loadlist');
                     }, 500);
-                });
-            }
+                }
+            });
+            $(".sweet-alert").addClass("label-injector-summary")
         });
     }
 }

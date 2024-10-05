@@ -73,6 +73,7 @@ function labelForm() {
             <div class="label-injector-form-group">
                 <p>Choose containers to add labels to</p>
                 <select id="label-injector-containers" name="containers" class="label-injector-select" multiple id="label-injector-containers" required></select>
+                <button id="remove-all-label-injector-containers">Remove All</button>
             </div>
             <div class="label-injector-form-group">
                 <p>Type and press enter to save a label, separate label from value via '='</p>
@@ -83,7 +84,8 @@ function labelForm() {
                 <ul>
                     <li>\${CONTAINER_NAME} - i.e 'LABEL_A=\${CONTAINER_NAME}.domain.com' -> 'LABEL_A=container_a.domain.com'</li>
                 </ul>
-                <select id="label-injector-labels" name="labels" id="label-injector-labels" class="label-injector-select" multiple required ></select>
+                <select id="label-injector-labels" name="labels" class="label-injector-select" multiple required ></select>
+                <button id="remove-all-label-injector-labels">Remove All</button>
             </div>
             <div class="label-injector-form-group-divider" />
         </form>
@@ -104,7 +106,7 @@ function labelForm() {
 }
 
 function generateLabelsSelect() {
-    new Choices($("#label-injector-labels")[0], {
+    const choices = new Choices($("#label-injector-labels")[0], {
         silent: false,
         items: [],
         choices: defaultLabels.map(label => ({
@@ -202,6 +204,12 @@ function generateLabelsSelect() {
         callbackOnInit: null,
         callbackOnCreateTemplates: null,
         appendGroupInSearch: false,
+    });
+    $("#remove-all-label-injector-labels").on('click', () => {
+        const allItems = choices.getValue(true);
+        allItems.forEach(item => {
+            choices.removeActiveItemsByValue(item);
+        });
     });
 }
 
@@ -307,6 +315,13 @@ function generateContainersSelect() {
         callbackOnInit: null,
         callbackOnCreateTemplates: null,
         appendGroupInSearch: false,
+    });
+
+    $("#remove-all-label-injector-containers").on('click', () => {
+        const allItems = choices.getValue(true);
+        allItems.forEach(item => {
+            choices.removeActiveItemsByValue(item);
+        });
     });
 
     let selectedAll = false;

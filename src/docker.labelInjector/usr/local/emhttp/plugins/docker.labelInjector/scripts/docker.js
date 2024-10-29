@@ -42,24 +42,24 @@ function addLabels() {
             $('div.spinner.fixed').hide();
             data = JSON.parse(data)
             const hasUpdates = data.containers.length > 0
-            let updates = '<pre class="docker-label-updates">';
+            let updates = ['<pre class="docker-label-updates">'];
             if (hasUpdates) {
-                updates = updates + `<h3>Note: The templates have been updated, this is just an FYI modal at the moment</h3>`
-                updates = updates + `<h3>Note: if you leave this page the label will not be applied until you edit and save the container/s in question</h3>`
-                updates = updates + `<h3>Note: Performing this action will also update the container at this time</h3>`
-                updates = updates + `<h3>Once you press okay the changes will be applied one by one </h3>`
+                updates.push("<h3>Note: The templates have been updated, this is just an FYI modal at the moment</h3>")
+                updates.push("<h3>Note: if you leave this page the label will not be applied until you edit and save the container/s in question</h3>")
+                updates.push("<h3>Note: Performing this action will also update the container at this time</h3>")
+                updates.push("<h3>Once you press okay the changes will be applied one by one </h3>")
                 Object.entries(data.updates).forEach(([container, changes]) => {
-                    updates = updates + `<h3>${container} changes:</h3>${changes.join("")}`;
+                    updates.push(`<h3>${container} changes:</h3>${changes.join("")}`);
                 });
             } else {
-                updates = updates + `<h3>No Containers returned any changes in labels, nothing to be applied</h3>`
+                updates.push("<h3>No Containers returned any changes in labels, nothing to be applied</h3>")
             }
 
-            updates = updates + "</pre>"
+            updates.push("</pre>")
 
             swal({
                 title: "Summary of Updates",
-                text: updates,
+                text: updates.join(""),
                 html: true,
                 closeOnConfirm: false,
             }, function () {
@@ -94,7 +94,7 @@ function labelForm() {
                     <li>When empty values are provided the label will be removed or ignored if not found</li>
                     <li>Existing tags will be replaced</li>
                     <li>Spaces will be replaced with a -</li>
-                    <li>To use quotes in an options use \` Otherwise the option fails to save</li>
+                    <li>To use quotes in an options use and escaped backtick \\\` Otherwise the option fails to save</li>
                 </ul>
                 <h3>The following special values are available replacement of values or keys:</h3>
                 <ul class="list">
@@ -122,117 +122,20 @@ function labelForm() {
 }
 
 function generateLabelsSelect() {
-    const choices = new Choices($("#label-injector-labels")[0], {
-        silent: false,
-        items: [],
+    generateDropdown("#label-injector-labels", {
         choices: defaultLabels.map(label => ({
             value: label,
             label: label,
             selected: true,
             disabled: false
         })),
-        renderChoiceLimit: -1,
-        maxItemCount: -1,
-        closeDropdownOnSelect: 'auto',
-        singleModeForMultiSelect: false,
-        addChoices: true,
-        addItems: true,
         addItemFilter: (value) => !!value && value !== '' && value.includes('='),
-        removeItems: true,
-        removeItemButton: true,
-        removeItemButtonAlignLeft: false,
-        editItems: true,
-        allowHTML: false,
-        allowHtmlUserInput: false,
-        duplicateItemsAllowed: true,
-        delimiter: ',',
-        paste: true,
-        searchEnabled: true,
-        searchChoices: true,
-        searchFloor: 1,
-        searchResultLimit: 4,
-        searchFields: ['label', 'value'],
-        position: 'auto',
-        resetScrollPosition: true,
-        shouldSort: true,
-        shouldSortItems: false,
-        shadowRoot: null,
-        placeholder: true,
-        placeholderValue: null,
-        searchPlaceholderValue: null,
-        prependValue: null,
-        appendValue: null,
-        renderSelectedChoices: 'auto',
-        loadingText: 'Loading...',
-        noResultsText: 'No results found',
-        noChoicesText: 'No choices to choose from',
-        itemSelectText: 'Press to select',
-        uniqueItemText: 'Only unique values can be added',
         customAddItemText: 'Only values containing "=" can be added, i.e `LABEL_A=VALUE_A',
-        addItemText: (value) => {
-            return `Press Enter to add <b>"${value}"</b>`;
-        },
-        removeItemIconText: () => `Remove item`,
-        removeItemLabelText: (value) => `Remove item: ${value}`,
-        maxItemText: (maxItemCount) => {
-            return `Only ${maxItemCount} values can be added`;
-        },
-        valueComparer: (value1, value2) => {
-            return value1 === value2;
-        },
-        classNames: {
-            containerOuter: ['choices'],
-            containerInner: ['choices__inner'],
-            input: ['choices__input'],
-            inputCloned: ['choices__input--cloned'],
-            list: ['choices__list'],
-            listItems: ['choices__list--multiple'],
-            listSingle: ['choices__list--single'],
-            listDropdown: ['choices__list--dropdown'],
-            item: ['choices__item'],
-            itemSelectable: ['choices__item--selectable'],
-            itemDisabled: ['choices__item--disabled'],
-            itemChoice: ['choices__item--choice'],
-            description: ['choices__description'],
-            placeholder: ['choices__placeholder'],
-            group: ['choices__group'],
-            groupHeading: ['choices__heading'],
-            button: ['choices__button'],
-            activeState: ['is-active'],
-            focusState: ['is-focused'],
-            openState: ['is-open'],
-            disabledState: ['is-disabled'],
-            highlightedState: ['is-highlighted'],
-            selectedState: ['is-selected'],
-            flippedState: ['is-flipped'],
-            loadingState: ['is-loading'],
-            notice: ['choices__notice'],
-            addChoice: ['choices__item--selectable', 'add-choice'],
-            noResults: ['has-no-results'],
-            noChoices: ['has-no-choices'],
-        },
-        // Choices uses the great Fuse library for searching. You
-        // can find more options here: https://fusejs.io/api/options.html
-        fuseOptions: {
-            includeScore: true
-        },
-        labelId: '',
-        callbackOnInit: null,
-        callbackOnCreateTemplates: null,
-        appendGroupInSearch: false,
-    });
-    $("#remove-all-label-injector-labels").on('click', () => {
-        const allItems = choices.getValue(true);
-        allItems.forEach(item => {
-            choices.removeActiveItemsByValue(item);
-        });
-    });
+    }, "#remove-all-label-injector-labels")
 }
 
 function generateContainersSelect() {
-    const choices = new Choices($("#label-injector-containers")[0], {
-        silent: false,
-        items: [],
+    generateDropdown("#label-injector-containers", {
         choices: docker.map(ct => ({
             value: ct.name,
             label: ct.name,
@@ -244,124 +147,5 @@ function generateContainersSelect() {
             selected: false,
             disabled: false
         }),
-        renderChoiceLimit: -1,
-        maxItemCount: -1,
-        closeDropdownOnSelect: 'auto',
-        singleModeForMultiSelect: false,
-        addChoices: false,
-        addItems: false,
-        removeItems: true,
-        removeItemButton: true,
-        removeItemButtonAlignLeft: false,
-        editItems: false,
-        allowHTML: false,
-        allowHtmlUserInput: false,
-        duplicateItemsAllowed: true,
-        delimiter: ',',
-        paste: true,
-        searchEnabled: true,
-        searchChoices: true,
-        searchFloor: 1,
-        searchResultLimit: 4,
-        searchFields: ['label', 'value'],
-        position: 'auto',
-        resetScrollPosition: true,
-        shouldSort: true,
-        shouldSortItems: false,
-        shadowRoot: null,
-        placeholder: true,
-        placeholderValue: null,
-        searchPlaceholderValue: null,
-        prependValue: null,
-        appendValue: null,
-        renderSelectedChoices: 'auto',
-        loadingText: 'Loading...',
-        noResultsText: 'No results found',
-        noChoicesText: 'No choices to choose from',
-        itemSelectText: 'Press to select',
-        uniqueItemText: 'Only unique values can be added',
-        addItemText: (value) => {
-            return `Press Enter to add <b>"${value}"</b>`;
-        },
-        removeItemIconText: () => `Remove item`,
-        removeItemLabelText: (value) => `Remove item: ${value}`,
-        maxItemText: (maxItemCount) => {
-            return `Only ${maxItemCount} values can be added`;
-        },
-        valueComparer: (value1, value2) => {
-            return value1 === value2;
-        },
-        classNames: {
-            containerOuter: ['choices'],
-            containerInner: ['choices__inner'],
-            input: ['choices__input'],
-            inputCloned: ['choices__input--cloned'],
-            list: ['choices__list'],
-            listItems: ['choices__list--multiple'],
-            listSingle: ['choices__list--single'],
-            listDropdown: ['choices__list--dropdown'],
-            item: ['choices__item'],
-            itemSelectable: ['choices__item--selectable'],
-            itemDisabled: ['choices__item--disabled'],
-            itemChoice: ['choices__item--choice'],
-            description: ['choices__description'],
-            placeholder: ['choices__placeholder'],
-            group: ['choices__group'],
-            groupHeading: ['choices__heading'],
-            button: ['choices__button'],
-            activeState: ['is-active'],
-            focusState: ['is-focused'],
-            openState: ['is-open'],
-            disabledState: ['is-disabled'],
-            highlightedState: ['is-highlighted'],
-            selectedState: ['is-selected'],
-            flippedState: ['is-flipped'],
-            loadingState: ['is-loading'],
-            notice: ['choices__notice'],
-            addChoice: ['choices__item--selectable', 'add-choice'],
-            noResults: ['has-no-results'],
-            noChoices: ['has-no-choices'],
-        },
-        // Choices uses the great Fuse library for searching. You
-        // can find more options here: https://fusejs.io/api/options.html
-        fuseOptions: {
-            includeScore: true
-        },
-        labelId: '',
-        callbackOnInit: null,
-        callbackOnCreateTemplates: null,
-        appendGroupInSearch: false,
-    });
-
-    $("#remove-all-label-injector-containers").on('click', () => {
-        const allItems = choices.getValue(true);
-        allItems.forEach(item => {
-            choices.removeActiveItemsByValue(item);
-        });
-    });
-
-    let selectedAll = false;
-    $("#label-injector-containers").on('change', function () {
-        if ($(this).val().includes('all')) {
-            if (!selectedAll) {
-                selectedAll = true
-                const allChoices = choices._store.choices;
-                allChoices.forEach(choice => {
-                    if (!choice.selected && !choice.disabled) {
-                        choices.setChoiceByValue(choice.value);
-                    }
-                });
-            }
-        } else {
-            if (selectedAll) {
-                selectedAll = false
-                const allChoices = choices._store.choices;
-                allChoices.forEach(choice => {
-                    if (choice.selected && !choice.disabled) {
-                        choices.removeActiveItemsByValue(choice.value);
-                    }
-                });
-            }
-        }
-    })
+    }, "#remove-all-label-injector-containers")
 }

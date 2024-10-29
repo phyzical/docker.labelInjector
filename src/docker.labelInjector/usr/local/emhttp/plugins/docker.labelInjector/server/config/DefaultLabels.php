@@ -6,7 +6,7 @@ class DefaultLabels
 {
     public const CONFIG_PATH = "/boot/config/docker.labelInjector/";
     public const LABELS_PATH = self::CONFIG_PATH . "/labels.json";
-    public const QUOTE_REPLACER = "`";
+    public const QUOTE_REPLACER = "\`";
 
     /**
      * Save the default labels to a file.
@@ -57,7 +57,7 @@ class DefaultLabels
                 <p>Empty values are valid to allow for easy filling</p>
             HTML;
 
-        echo " <p>To use quotes in an options use " . self::QUOTE_REPLACER . " Otherwise the option fails to save</p>";
+        echo " <p>To use quotes in an options use an escaped backtick " . self::QUOTE_REPLACER . " Otherwise the option fails to save</p>";
         echo <<<HTML
 
                 <p>The following special values are available:</p>

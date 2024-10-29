@@ -94,7 +94,7 @@ function labelForm() {
                     <li>When empty values are provided the label will be removed or ignored if not found</li>
                     <li>Existing tags will be replaced</li>
                     <li>Spaces will be replaced with a -</li>
-                    <li>To use quotes in an options use \` Otherwise the option fails to save</li>
+                    <li>To use quotes in an options use and escaped backtick \\\` Otherwise the option fails to save</li>
                 </ul>
                 <h3>The following special values are available replacement of values or keys:</h3>
                 <ul class="list">

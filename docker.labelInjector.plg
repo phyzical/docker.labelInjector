@@ -12,6 +12,11 @@
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.12.3">
     <CHANGES>
+###2024.10.29
+!!!! BREAKING CHANGE !!!!
+- Changed the way the default labels are stored. 
+- If any of your exisiting default labels use ` -> " Going forward these must be escaped \` -> "
+
 ###2024.10.05
 - Fix visibility of changes in the summary when dark mode
 - Add remove all button during edit mode

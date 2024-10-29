@@ -42,24 +42,24 @@ function addLabels() {
             $('div.spinner.fixed').hide();
             data = JSON.parse(data)
             const hasUpdates = data.containers.length > 0
-            let updates = '<pre class="docker-label-updates">';
+            let updates = ['<pre class="docker-label-updates">'];
             if (hasUpdates) {
-                updates = updates + `<h3>Note: The templates have been updated, this is just an FYI modal at the moment</h3>`
-                updates = updates + `<h3>Note: if you leave this page the label will not be applied until you edit and save the container/s in question</h3>`
-                updates = updates + `<h3>Note: Performing this action will also update the container at this time</h3>`
-                updates = updates + `<h3>Once you press okay the changes will be applied one by one </h3>`
+                updates.push("<h3>Note: The templates have been updated, this is just an FYI modal at the moment</h3>")
+                updates.push("<h3>Note: if you leave this page the label will not be applied until you edit and save the container/s in question</h3>")
+                updates.push("<h3>Note: Performing this action will also update the container at this time</h3>")
+                updates.push("<h3>Once you press okay the changes will be applied one by one </h3>")
                 Object.entries(data.updates).forEach(([container, changes]) => {
-                    updates = updates + `<h3>${container} changes:</h3>${changes.join("")}`;
+                    updates.push(`<h3>${container} changes:</h3>${changes.join("")}`);
                 });
             } else {
-                updates = updates + `<h3>No Containers returned any changes in labels, nothing to be applied</h3>`
+                updates.push("<h3>No Containers returned any changes in labels, nothing to be applied</h3>")
             }
 
-            updates = updates + "</pre>"
+            updates.push("</pre>")
 
             swal({
                 title: "Summary of Updates",
-                text: updates,
+                text: updates.join(""),
                 html: true,
                 closeOnConfirm: false,
             }, function () {

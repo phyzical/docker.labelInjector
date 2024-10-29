@@ -6,8 +6,8 @@
 <!ENTITY launch "Settings/LabelInjector">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
-<!ENTITY version "2024.10.05">
-<!ENTITY md5 "2e5c4d0782751fe62239d7592cf74c47">
+<!ENTITY version "2024.10.29">
+<!ENTITY md5 "2c83002b7f9f530e459592b9cf0776f8">
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.12.3">

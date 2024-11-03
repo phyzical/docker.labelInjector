@@ -4,7 +4,7 @@ namespace DockerInjector\Config;
 
 class DefaultLabels
 {
-    public const CONFIG_PATH = "/boot/config/docker.labelInjector/";
+    public const CONFIG_PATH = "/boot/config/docker.labelInjector";
     public const LABELS_PATH = self::CONFIG_PATH . "/labels.json";
     public const QUOTE_REPLACER = "\`";
 
@@ -33,7 +33,10 @@ class DefaultLabels
      */
     static function getDefaultLabels(): array
     {
-        $json = file_get_contents(self::LABELS_PATH);
+        $json = "";
+        if (file_exists(self::LABELS_PATH)) {
+            $json = file_get_contents(self::LABELS_PATH);
+        }
         if (!$json || empty($json)) {
             return [];
         }

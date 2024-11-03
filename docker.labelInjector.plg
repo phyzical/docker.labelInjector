@@ -12,6 +12,9 @@
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.12.3">
     <CHANGES>
+###2024.11.03
+- Fix issue with default labels not being loaded correctly when first time use
+
 ###2024.10.29
 !!!! BREAKING CHANGE !!!!
 - Changed the way the default labels are stored. 

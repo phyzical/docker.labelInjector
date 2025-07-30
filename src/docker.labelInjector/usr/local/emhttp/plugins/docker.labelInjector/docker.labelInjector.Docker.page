@@ -6,14 +6,10 @@ Icon="server"
     $documentRoot = $_SERVER['DOCUMENT_ROOT'] ?? '/usr/local/emhttp';
 ?>
 
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
-/>
-<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-
+<link type="text/css" rel="stylesheet" href="<?autov("/plugins/docker.labelInjector/styles/choices.min.css")?>">
 <link type="text/css" rel="stylesheet" href="<?autov("/plugins/docker.labelInjector/styles/styles.css")?>">
 
+<script defer src="<?autov('/plugins/docker.labelInjector/scripts/choices.min.js')?>"></script>
 <script defer src="<?autov('/plugins/docker.labelInjector/scripts/dropdown.js')?>"></script>
 <script defer src="<?autov('/plugins/docker.labelInjector/scripts/docker.js')?>"></script>
 

@@ -16,6 +16,8 @@
     width: 75% !important;
     left: 25%;
     top: 25%;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .sweet-alert.label-injector-summary {

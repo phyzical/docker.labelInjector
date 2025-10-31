@@ -65,10 +65,10 @@ function addLabels() {
                 closeOnConfirm: false,
                 allowOutsideClick: true,
                 showCancelButton: true,
-            }, function () {
+            }, function (isConfirm) {
                 $(".sweet-alert").removeClass("label-injector-summary");
                 swal.close(); // Close the SweetAlert dialog
-                if (hasUpdates) {
+                if (isConfirm && hasUpdates) {
                     $('div.spinner.fixed').show();
                     const containersString = data.containers.map(container => encodeURIComponent(container));
                     setTimeout(() => {

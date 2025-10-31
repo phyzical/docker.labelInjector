@@ -9,7 +9,8 @@ function labelFormPopup() {
         html: true,
         showCancelButton: true,
         closeOnConfirm: false,
-        closeOnCancel: false
+        closeOnCancel: false,
+        allowOutsideClick: true
     }, function (isConfirm) {
         $('div.spinner.fixed').show();
         // Remove the 'label-injector' class regardless of the button clicked
@@ -62,6 +63,8 @@ function addLabels() {
                 text: updates.join(""),
                 html: true,
                 closeOnConfirm: false,
+                allowOutsideClick: true,
+                showCancelButton: true,
             }, function () {
                 $(".sweet-alert").removeClass("label-injector-summary");
                 swal.close(); // Close the SweetAlert dialog
@@ -88,22 +91,23 @@ function labelForm() {
                 <button id="remove-all-label-injector-containers">Remove All</button>
             </div>
             <div class="label-injector-form-group">
-                <h3> Note:</h3>
-                <ul class="list">
-                    <li>Type and press enter to save a label, separate label from value via '='</li>
-                    <li>When empty values are provided the label will be removed or ignored if not found</li>
-                    <li>Existing tags will be replaced</li>
-                    <li>Spaces will be replaced with a -</li>
-                    <li>To use quotes in an options use and escaped backtick \\\` Otherwise the option fails to save</li>
-                </ul>
-                <h3>The following special values are available replacement of values or keys:</h3>
-                <ul class="list">
-                    <li>\${CONTAINER_NAME} - i.e 'LABEL_A=\${CONTAINER_NAME}.domain.com' -> 'LABEL_A=container_a.domain.com'</li>
-                </ul>
+                <div class="label-injector-notes">
+                    <h3> Note:</h3>
+                    <ul class="list">
+                        <li>Type and press enter to save a label, separate label from value via '='</li>
+                        <li>When empty values are provided the label will be removed or ignored if not found</li>
+                        <li>Existing tags will be replaced</li>
+                        <li>Spaces will be replaced with a -</li>
+                        <li>To use quotes in an options use and escaped backtick \\\` Otherwise the option fails to save</li>
+                    </ul>
+                    <h3>The following special values are available replacement of values or keys:</h3>
+                    <ul class="list">
+                        <li>\${CONTAINER_NAME} - i.e 'LABEL_A=\${CONTAINER_NAME}.domain.com' -> 'LABEL_A=container_a.domain.com'</li>
+                    </ul>
+                </div>
                 <select id="label-injector-labels" name="labels" class="label-injector-select" multiple required ></select>
                 <button id="remove-all-label-injector-labels">Remove All</button>
             </div>
-            <div class="label-injector-form-group-divider" />
         </form>
         `)
     generateLabelsSelect();

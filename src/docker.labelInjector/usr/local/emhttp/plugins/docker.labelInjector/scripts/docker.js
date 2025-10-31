@@ -35,7 +35,7 @@ function addLabels() {
         .val()
         .map(value => ({ key: value.split("=")[0], value: value.split("=")[1] }));
 
-    const containers = $('#label-injector-containers').val().filter(x => x !== 'All');
+    const containers = $('#label-injector-containers').val().filter(x => x !== 'all');
 
     if (labels.length > 0 && containers.length > 0) {
         $('div.spinner.fixed').show();
@@ -147,7 +147,7 @@ function generateContainersSelect() {
             disabled: false
         })).concat({
             value: 'all',
-            label: 'All',
+            label: 'all',
             selected: false,
             disabled: false
         }),

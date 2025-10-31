@@ -111,20 +111,20 @@ function generateDropdown(selector, options, removeAllSelector = undefined) {
         if ($(this).val().includes('all')) {
             if (!selectedAll) {
                 selectedAll = true
-                const allChoices = choices._store.choices;
+                const allChoices = choicesSelect._store.choices;
                 allChoices.forEach(choice => {
                     if (!choice.selected && !choice.disabled) {
-                        choices.setChoiceByValue(choice.value);
+                        choicesSelect.setChoiceByValue(choice.value);
                     }
                 });
             }
         } else {
             if (selectedAll) {
                 selectedAll = false
-                const allChoices = choices._store.choices;
+                const allChoices = choicesSelect._store.choices;
                 allChoices.forEach(choice => {
                     if (choice.selected && !choice.disabled) {
-                        choices.removeActiveItemsByValue(choice.value);
+                        choicesSelect.removeActiveItemsByValue(choice.value);
                     }
                 });
             }

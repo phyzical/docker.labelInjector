@@ -92,6 +92,11 @@ const defaultOptions = {
     appendGroupInSearch: false,
 }
 
+const addItemFilter = (value) => {
+    return !!value && value !== '' && value.includes('=')
+}
+const customAddItemText = 'Only values containing "=" can be added, i.e `LABEL_A=VALUE_A'
+
 function generateDropdown(selector, options, removeAllSelector = undefined) {
     const choicesSelect = new Choices($(selector)[0], { ...defaultOptions, ...options });
 

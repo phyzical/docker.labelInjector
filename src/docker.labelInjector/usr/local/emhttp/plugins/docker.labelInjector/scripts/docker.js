@@ -133,8 +133,8 @@ function generateLabelsSelect() {
             selected: true,
             disabled: false
         })),
-        addItemFilter: (value) => !!value && value !== '' && value.includes('='),
-        customAddItemText: 'Only values containing "=" can be added, i.e `LABEL_A=VALUE_A',
+        addItemFilter,
+        customAddItemText,
     }, "#remove-all-label-injector-labels")
 }
 

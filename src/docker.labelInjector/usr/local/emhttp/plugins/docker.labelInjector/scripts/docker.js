@@ -81,7 +81,18 @@ function addLabels() {
         });
     }
 }
-
+const labelInjectorNotes = `<h3> Note:</h3>
+                    <ul class="list">
+                        <li>Type and press enter to save a label, separate label from value via '='</li>
+                        <li>When empty values are provided the label will be removed or ignored if not found</li>
+                        <li>Existing tags will be replaced</li>
+                        <li>Spaces will be replaced with a -</li>
+                        <li>To use quotes in an options use and escaped backtick \\\` Otherwise the option fails to save</li>
+                    </ul>
+                    <h3>The following special values can be used to replace values or keys:</h3>
+                    <ul class="list">
+                        <li>\${CONTAINER_NAME} - i.e 'LABEL_A=\${CONTAINER_NAME}.domain.com' -> 'LABEL_A=container_a.domain.com'</li>
+                    </ul>`
 function labelForm() {
     $('#label-injector-form').html(`
         <form id="label-injector-form" class="label-injector-form">
@@ -92,18 +103,7 @@ function labelForm() {
             </div>
             <div class="label-injector-form-group">
                 <div class="label-injector-notes">
-                    <h3> Note:</h3>
-                    <ul class="list">
-                        <li>Type and press enter to save a label, separate label from value via '='</li>
-                        <li>When empty values are provided the label will be removed or ignored if not found</li>
-                        <li>Existing tags will be replaced</li>
-                        <li>Spaces will be replaced with a -</li>
-                        <li>To use quotes in an options use and escaped backtick \\\` Otherwise the option fails to save</li>
-                    </ul>
-                    <h3>The following special values are available replacement of values or keys:</h3>
-                    <ul class="list">
-                        <li>\${CONTAINER_NAME} - i.e 'LABEL_A=\${CONTAINER_NAME}.domain.com' -> 'LABEL_A=container_a.domain.com'</li>
-                    </ul>
+                    ${labelInjectorNotes}
                 </div>
                 <select id="label-injector-labels" name="labels" class="label-injector-select" multiple required ></select>
                 <button id="remove-all-label-injector-labels">Remove All</button>
@@ -133,8 +133,8 @@ function generateLabelsSelect() {
             selected: true,
             disabled: false
         })),
-        addItemFilter: (value) => !!value && value !== '' && value.includes('='),
-        customAddItemText: 'Only values containing "=" can be added, i.e `LABEL_A=VALUE_A',
+        addItemFilter,
+        customAddItemText: defaultOptions.customAddItemText,
     }, "#remove-all-label-injector-labels")
 }
 

@@ -92,6 +92,10 @@ const defaultOptions = {
     appendGroupInSearch: false,
 }
 
+const addItemFilter = (value) => {
+    return !!value && value !== '' && value.includes('=')
+}
+
 function generateDropdown(selector, options, removeAllSelector = undefined) {
     const choicesSelect = new Choices($(selector)[0], { ...defaultOptions, ...options });
 

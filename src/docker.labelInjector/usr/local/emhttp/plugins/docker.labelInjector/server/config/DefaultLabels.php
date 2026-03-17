@@ -49,24 +49,18 @@ class DefaultLabels
     /**
      * Generate the form for the default labels.
      */
-    // TODO: reuse the form select config and here
     static function generateForm(): void
     {
         $message = self::formSubmit();
         echo <<<HTML
-                <h2>Default Labels</h2>
-                <p>Labels to be prefilled when using the add labels button</p>
-                <p>Type and press enter to save a label, separate label from value via '='</p>
-                <p>Empty values are valid to allow for easy filling</p>
-            HTML;
-
-        echo " <p>To use quotes in an options use an escaped backtick " . self::QUOTE_REPLACER . " Otherwise the option fails to save</p>";
-        echo <<<HTML
-
-                <p>The following special values are available:</p>
-                <ul>
-                    <li>\${CONTAINER_NAME} - i.e 'LABEL_A=\${CONTAINER_NAME}.domain.com' -> 'LABEL_A=container_a.domain.com'</li>
-                </ul>
+                <div>
+                    <h3>Default labels</h3>
+                    <p>
+                        These labels are automatically added to new Docker containers. You can leave values empty
+                        to make filling them in easier when applying labels later.
+                    </p>
+                </div>
+                <div id="label-injector-notes"></div>
                 <div>
                     <form id="default-label-form" method="post" action="">
                         <label for="labels">Labels</label>

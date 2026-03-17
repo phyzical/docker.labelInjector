@@ -89,7 +89,7 @@ const labelInjectorNotes = `<h3> Note:</h3>
                         <li>Spaces will be replaced with a -</li>
                         <li>To use quotes in an options use and escaped backtick \\\` Otherwise the option fails to save</li>
                     </ul>
-                    <h3>The following special values are available replacement of values or keys:</h3>
+                    <h3>The following special values can be used to replace values or keys:</h3>
                     <ul class="list">
                         <li>\${CONTAINER_NAME} - i.e 'LABEL_A=\${CONTAINER_NAME}.domain.com' -> 'LABEL_A=container_a.domain.com'</li>
                     </ul>`

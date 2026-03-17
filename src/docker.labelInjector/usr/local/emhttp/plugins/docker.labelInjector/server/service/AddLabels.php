@@ -14,6 +14,7 @@ $data = json_decode($_POST["data"]);
 
 $containerNames = $data->containers;
 $inputs = array_map(function ($item) {
+    $item->name = str_replace(DefaultLabels::QUOTE_REPLACER, '"', $item->name);
     $item->value = str_replace(DefaultLabels::QUOTE_REPLACER, '"', $item->value);
     $item->key = str_replace(DefaultLabels::QUOTE_REPLACER, '"', $item->key);
     return $item;
@@ -47,6 +48,7 @@ foreach ($containerNames as $containerName) {
         $old_template_xml = $template_xml->asXML();
 
         foreach ($inputs as $input) {
+            $name = $input->name;
             $label = $input->key;
             $value = $input->value;
             $label = str_replace("\${CONTAINER_NAME}", $containerName, $label);
@@ -56,19 +58,19 @@ foreach ($containerNames as $containerName) {
 
             if ($template_label) {
                 if (!$value) {
-                    $changes[] = "<p>Removing $label</p>";
+                    $changes[] = "<p>Removing $name -> $label</p>";
                     $dom = dom_import_simplexml($template_label[0]);
                     $dom->parentNode->removeChild($dom);
                     $changed = true;
                 } else if ($template_label[0][0] != $value) {
-                    $changes[] = "<p>Updating $label to $value</p>";
+                    $changes[] = "<p>Updating $name -> $label = $value</p>";
                     $template_label[0][0] = $value;
                     $changed = true;
                 }
             } else if ($value) {
-                $changes[] = "<p>Adding $label with $value</p>";
+                $changes[] = "<p>Adding $name -> $label = $value</p>";
                 $newElement = $template_xml->addChild('Config');
-                $newElement->addAttribute('Name', $label);
+                $newElement->addAttribute('Name', $name);
                 $newElement->addAttribute('Target', $label);
                 $newElement->addAttribute('Default', "");
                 $newElement->addAttribute('Mode', "");

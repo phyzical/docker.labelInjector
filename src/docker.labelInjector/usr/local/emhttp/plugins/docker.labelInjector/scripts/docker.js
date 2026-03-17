@@ -33,7 +33,14 @@ function labelFormPopup() {
 function addLabels() {
     const labels = $('#label-injector-labels')
         .val()
-        .map(value => ({ key: value.split("=")[0], value: value.split("=")[1] }));
+        .map(value => {
+            splits = value.split("=");
+            if (splits.length >= 3) {
+                return { name: splits[0], key: splits[1], value: splits[2] }
+            } else {
+                return { name: splits[0], key: splits[0], value: splits[1] }
+            }
+        });
 
     const containers = $('#label-injector-containers').val().filter(x => x !== 'all');
 
@@ -87,6 +94,8 @@ const labelInjectorNotes = `<h3> Note:</h3>
                         <li>When empty values are provided the label will be removed or ignored if not found</li>
                         <li>Existing tags will be replaced</li>
                         <li>Spaces will be replaced with a -</li>
+                        <li>If you provide 3 = i.e A=B=C A is the name B is the label C is the value</li>
+                        <li>If you provide 2 = i.e A=B A is the name and the label B is the value</li>
                         <li>To use quotes in an options use and escaped backtick \\\` Otherwise the option fails to save</li>
                     </ul>
                     <h3>The following special values can be used to replace values or keys:</h3>

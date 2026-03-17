@@ -12,6 +12,10 @@
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="7.2.0">
     <CHANGES>
+###2026.03.17
+- Added ability to provide name of label via A=B=C instead of the current A=B
+- keeps backward compatibility with A=B
+
 ###2025.10.31
 - adjust styling to support 7.2 UI Changes
 

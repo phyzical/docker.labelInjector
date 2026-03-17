@@ -53,6 +53,13 @@ class DefaultLabels
     {
         $message = self::formSubmit();
         echo <<<HTML
+                <div>
+                    <h3>Default labels</h3>
+                    <p>
+                        These labels are automatically added to new Docker containers. You can leave values empty
+                        to make filling them in easier when applying labels later.
+                    </p>
+                </div>
                 <div id="label-injector-notes"></div>
                 <div>
                     <form id="default-label-form" method="post" action="">

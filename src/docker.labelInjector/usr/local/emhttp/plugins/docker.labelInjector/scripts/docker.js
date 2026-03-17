@@ -94,6 +94,8 @@ const labelInjectorNotes = `<h3> Note:</h3>
                         <li>When empty values are provided the label will be removed or ignored if not found</li>
                         <li>Existing tags will be replaced</li>
                         <li>Spaces will be replaced with a -</li>
+                        <li>If you provide 3 = i.e A=B=C A is the name B is the label C is the value</li>
+                        <li>If you provide 2 = i.e A=B A is the name and the label B is the value</li>
                         <li>To use quotes in an options use and escaped backtick \\\` Otherwise the option fails to save</li>
                     </ul>
                     <h3>The following special values can be used to replace values or keys:</h3>

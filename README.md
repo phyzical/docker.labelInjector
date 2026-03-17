@@ -15,6 +15,9 @@ If the label exists already an update will be performed.
 
 If the label does not exist it will be added.
 
+If you provide 3 = i.e A=B=C A is the name B is the label C is the value
+If you provide 2 = i.e A=B A is the name and the label B is the value
+
 If you enter a value of `REMOVE` it will instead remove the label if found.
 
 Special flags include:

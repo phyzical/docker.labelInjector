@@ -33,7 +33,14 @@ function labelFormPopup() {
 function addLabels() {
     const labels = $('#label-injector-labels')
         .val()
-        .map(value => ({ key: value.split("=")[0], value: value.split("=")[1] }));
+        .map(value => {
+            splits = value.split("=");
+            if (splits.length >= 3) {
+                return { name: splits[0], key: splits[1], value: splits[2] }
+            } else {
+                return { name: splits[0], key: splits[0], value: splits[1] }
+            }
+        });
 
     const containers = $('#label-injector-containers').val().filter(x => x !== 'all');
 

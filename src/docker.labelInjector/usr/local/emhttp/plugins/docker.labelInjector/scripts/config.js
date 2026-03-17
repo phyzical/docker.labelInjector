@@ -1,7 +1,7 @@
 $(document).ready(function () {
     generateDropdown('#labels', {
         addItemFilter,
-        customAddItemText,
+        customAddItemText: defaultOptions.customAddItemText,
     });
     $("#label-injector-notes").html(labelInjectorNotes)
 });

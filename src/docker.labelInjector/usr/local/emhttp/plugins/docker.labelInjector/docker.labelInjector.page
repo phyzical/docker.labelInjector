@@ -12,8 +12,8 @@ Markdown="false"
 
 <script defer src="<?autov('/plugins/docker.labelInjector/scripts/choices.min.js')?>"></script>
 <script defer src="<?autov('/plugins/docker.labelInjector/scripts/dropdown.js')?>"></script>
-<script defer src="<?autov('/plugins/docker.labelInjector/scripts/config.js')?>"></script>
 <script defer src="<?autov('/plugins/docker.labelInjector/scripts/docker.js')?>"></script>
+<script defer src="<?autov('/plugins/docker.labelInjector/scripts/config.js')?>"></script>
 
 <? 
     require_once("$documentRoot/plugins/docker.labelInjector/server/config/DefaultLabels.php");

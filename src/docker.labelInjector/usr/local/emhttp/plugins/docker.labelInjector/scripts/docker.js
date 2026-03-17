@@ -134,7 +134,7 @@ function generateLabelsSelect() {
             disabled: false
         })),
         addItemFilter,
-        customAddItemText,
+        customAddItemText: defaultOptions.customAddItemText,
     }, "#remove-all-label-injector-labels")
 }
 

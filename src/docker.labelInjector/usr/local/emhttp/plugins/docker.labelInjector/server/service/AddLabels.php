@@ -62,9 +62,10 @@ foreach ($containerNames as $containerName) {
                     $dom = dom_import_simplexml($template_label[0]);
                     $dom->parentNode->removeChild($dom);
                     $changed = true;
-                } else if ($template_label[0][0] != $value) {
+                } else if ($template_label[0][0] != $value || $template_label[0]['Name'] != $name) {
                     $changes[] = "<p>Updating $name -> $label = $value</p>";
                     $template_label[0][0] = $value;
+                    $template_label[0]['Name'] = $name;
                     $changed = true;
                 }
             } else if ($value) {

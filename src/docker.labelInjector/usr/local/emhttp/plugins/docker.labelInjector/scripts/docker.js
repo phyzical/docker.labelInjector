@@ -34,7 +34,7 @@ function addLabels() {
     const labels = $('#label-injector-labels')
         .val()
         .map(value => {
-            splits = value.split("=");
+            const splits = value.split("=");
             if (splits.length >= 3) {
                 return { name: splits[0], key: splits[1], value: splits[2] }
             } else {

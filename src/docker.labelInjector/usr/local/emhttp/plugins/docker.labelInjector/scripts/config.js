@@ -3,4 +3,5 @@ $(document).ready(function () {
         addItemFilter,
         customAddItemText,
     });
+    $("#label-injector-notes").html(labelInjectorNotes)
 });
